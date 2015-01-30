@@ -16,6 +16,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configurations", "Configura
 		PublishScripts\Configurations\FFCGGamr-WAWS-dev.json = PublishScripts\Configurations\FFCGGamr-WAWS-dev.json
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Battleship", "Battleship", "{18856B38-615E-4627-9990-899B6FB8F34E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Battleship", "Battleship\Battleship.csproj", "{E87E6351-7D2C-43A4-A842-E4C22D120558}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,11 +30,16 @@ Global
 		{F4B524B0-35CE-41E6-8ACA-DDBDE5FCEEF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4B524B0-35CE-41E6-8ACA-DDBDE5FCEEF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4B524B0-35CE-41E6-8ACA-DDBDE5FCEEF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E87E6351-7D2C-43A4-A842-E4C22D120558}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E87E6351-7D2C-43A4-A842-E4C22D120558}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E87E6351-7D2C-43A4-A842-E4C22D120558}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E87E6351-7D2C-43A4-A842-E4C22D120558}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F7EFED6A-7F29-44BF-AC62-5827939D073B} = {40B029F5-FAB2-4869-BF16-E8E49165D47E}
+		{E87E6351-7D2C-43A4-A842-E4C22D120558} = {18856B38-615E-4627-9990-899B6FB8F34E}
 	EndGlobalSection
 EndGlobal
