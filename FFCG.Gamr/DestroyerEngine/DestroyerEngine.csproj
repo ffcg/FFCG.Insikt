@@ -46,13 +46,13 @@
     <Folder Include="Model\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Destroyer.Api\Destroyer.Api.csproj">
+    <ProjectReference Include="..\Destroyer.Api\Destroyer.Messages.csproj">
       <Project>{fa027026-5256-44c6-bfe4-2ea29087c5a0}</Project>
-      <Name>Destroyer.Api</Name>
+      <Name>Destroyer.Messages</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GameEngine.Api\GameEngine.Api.csproj">
+    <ProjectReference Include="..\GameEngine.Api\GameEngine.Messages.csproj">
       <Project>{80e08069-1c84-49d6-b9cd-13b01447eceb}</Project>
-      <Name>GameEngine.Api</Name>
+      <Name>GameEngine.Messages</Name>
     </ProjectReference>
     <ProjectReference Include="..\GameEngine\GameEngine.csproj">
       <Project>{eb3905b4-f610-481f-9244-44d7b5b239e4}</Project>

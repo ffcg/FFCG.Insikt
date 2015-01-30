@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameEngine.cs" />
     <Compile Include="IUserActionHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -46,9 +47,9 @@
     <Folder Include="Model\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GameEngine.Api\GameEngine.Api.csproj">
+    <ProjectReference Include="..\GameEngine.Api\GameEngine.Messages.csproj">
       <Project>{80e08069-1c84-49d6-b9cd-13b01447eceb}</Project>
-      <Name>GameEngine.Api</Name>
+      <Name>GameEngine.Messages</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

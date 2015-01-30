@@ -17,18 +17,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configurations", "Configura
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GameEngine", "GameEngine", "{3A297B99-BE71-4EE3-ABE9-8EBEADA09E04}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Battleship", "Battleship", "{18856B38-615E-4627-9990-899B6FB8F34E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngine", "GameEngine\GameEngine.csproj", "{EB3905B4-F610-481F-9244-44D7B5B239E4}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Battleship", "Battleship\Battleship.csproj", "{E87E6351-7D2C-43A4-A842-E4C22D120558}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngine.Api", "GameEngine.Api\GameEngine.Api.csproj", "{80E08069-1C84-49D6-B9CD-13B01447ECEB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngine.Messages", "GameEngine.Api\GameEngine.Messages.csproj", "{80E08069-1C84-49D6-B9CD-13B01447ECEB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Destroyr", "Destroyr", "{3239C4D2-6AF3-421E-947F-B97B62EA9CAA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DestroyerEngine", "DestroyerEngine\DestroyerEngine.csproj", "{95E5BCC2-9E36-4AC2-8798-1B4BEFF3965C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Destroyer.Api", "Destroyer.Api\Destroyer.Api.csproj", "{FA027026-5256-44C6-BFE4-2EA29087C5A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Destroyer.Messages", "Destroyer.Api\Destroyer.Messages.csproj", "{FA027026-5256-44C6-BFE4-2EA29087C5A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

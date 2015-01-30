@@ -1,4 +1,4 @@
-namespace GameEngine.Api
+namespace GameEngine.Messages
 {
     public class PlayerState
     {

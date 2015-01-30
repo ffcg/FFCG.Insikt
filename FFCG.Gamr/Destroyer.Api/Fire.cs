@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GameEngine.Api;
+﻿using GameEngine.Messages;
 
-namespace Destroyer.Api
+namespace Destroyer.Messages
 {
     public class Fire : UserAction
     {
