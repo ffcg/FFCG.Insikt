@@ -2,19 +2,14 @@
 
 namespace Battleship
 {
-    public class ShootCellResponse
-    {
-        bool Success { get; set; }
-    }
-
-    public class ShootCell : IRequest<ShootCellResponse>
+    public class ShootCell : IRequest
     {
 
     }
 
-    public class ShootCellHandler : IHandleRequests<ShootCell, ShootCellResponse>
+    public class ShootCellHandler : IHandleRequests<ShootCell>
     {
-        public ShootCellResponse Handle(ShootCell request)
+        public void Handle(ShootCell request)
         {
             throw new NotImplementedException();
         }

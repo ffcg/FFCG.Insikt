@@ -1,6 +1,6 @@
 ﻿namespace Battleship
 {
-    public interface IRequest<TReponse>
+    public interface IRequest
     {
 
     }
