@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddPlayerHandler.cs" />
     <Compile Include="Domain\Cell.cs" />
     <Compile Include="Domain\Game.cs" />
     <Compile Include="IHandleRequests.cs" />
