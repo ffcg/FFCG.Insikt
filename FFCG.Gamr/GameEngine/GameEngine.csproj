@@ -46,12 +46,6 @@
   <ItemGroup>
     <Folder Include="Model\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GameEngine.Api\GameEngine.Messages.csproj">
-      <Project>{80e08069-1c84-49d6-b9cd-13b01447eceb}</Project>
-      <Name>GameEngine.Messages</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

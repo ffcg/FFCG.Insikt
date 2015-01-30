@@ -1,6 +1,4 @@
-﻿using GameEngine.Messages;
-
-namespace Destroyer.Messages
+﻿namespace Destroyer.Actions
 {
     public class Rotate : UserAction
     {
