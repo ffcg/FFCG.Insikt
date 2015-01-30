@@ -42,7 +42,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserActionHandlers\ThrustActionHandler.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Destroyer.Api\Destroyer.Api.csproj">
       <Project>{fa027026-5256-44c6-bfe4-2ea29087c5a0}</Project>
