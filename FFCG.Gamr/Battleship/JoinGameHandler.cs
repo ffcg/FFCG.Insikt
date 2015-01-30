@@ -4,6 +4,7 @@ namespace Battleship
 {
     public class AddedPlayerViewModel
     {
+        public Guid GameId { get; set; }
         public Guid PlayerId { get; set; }
         public string Name { get; set; }
     }
@@ -15,19 +16,28 @@ namespace Battleship
 
     public class JoinGameHandler: IHandleRequests<JoinGame, AddedPlayerViewModel>
     {
-        public AddedPlayerViewModel Request(JoinGame request)
+        public AddedPlayerViewModel Handle(JoinGame request)
         {
             var game = GameController.Get().GetCurrentGame();
             var player = game.AddPlayer(request.Name);
             
             var viewModel = new AddedPlayerViewModel
             {
+                GameId = game.Id,
                 PlayerId = player.Id,
                 Name = player.Name,
             };
 
-            //if other player exists, use signal r to notify both that game is ready to start
-            //if no other player exists, notify player that he needs to wait
+            var hub = new BattleshipHub();
+
+            if (game.IsWaitingForPlayers)
+            {
+                hub.NotifyThatGameIsWaitingForSecondPlayer(game.Id);
+            }
+            else
+            {
+                hub.NotifyThatGameIsReadyToStart(game.Id);
+            }
 
             return viewModel;
         }
