@@ -90,6 +90,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Battleship\index.html" />
     <Content Include="Destroyr\index.html" />
     <Content Include="Destroyr\js\destroyr.js" />
     <Content Include="index.html" />
@@ -104,11 +105,15 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Battleship\BattleshipHub.cs" />
     <Compile Include="ChatHub.cs" />
     <Compile Include="Destroyr\DestroyrHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Tronr\TronHub.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Battleship\js\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
