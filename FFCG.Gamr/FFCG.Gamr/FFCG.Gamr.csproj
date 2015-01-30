@@ -128,6 +128,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Battleship\Styles\battleshipp.css" />
     <Content Include="Brun7\index.html" />
     <Content Include="Brun7\js\brun7.js" />
     <Content Include="Destroyr\index.html" />

@@ -1,0 +1,13 @@
+﻿body {
+}
+
+.row {
+    float: left
+}
+
+.column {
+    clear: both;
+    width: 50px;
+    height: 50px;
+    border: 1px solid darkgrey;
+}
