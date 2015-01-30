@@ -15,7 +15,7 @@ namespace Battleship
 
     public class JoinGameHandler: IHandleRequests<JoinGame, AddedPlayerViewModel>
     {
-        public AddedPlayerViewModel Request(JoinGame request)
+        public AddedPlayerViewModel Handle(JoinGame request)
         {
             var game = GameController.Get().GetCurrentGame();
             var player = game.AddPlayer(request.Name);

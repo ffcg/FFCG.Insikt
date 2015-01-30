@@ -14,7 +14,7 @@ namespace Battleship
 
     public class ShootCellHandler : IHandleRequests<ShootCell, ShootCellResponse>
     {
-        public ShootCellResponse Request(ShootCell request)
+        public ShootCellResponse Handle(ShootCell request)
         {
             throw new NotImplementedException();
         }
