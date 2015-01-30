@@ -22,5 +22,10 @@ namespace FFCG.Brun7
         {
             return _squares.All(x => x.Checked);
         }
+
+        public override string ToString()
+        {
+            return _squares.ToString();
+        }
     }
 }

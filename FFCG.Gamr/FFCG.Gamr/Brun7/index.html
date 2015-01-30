@@ -6,7 +6,9 @@
         #cards table {
             border: solid 1px;
         }
-
+        .checked {
+            background-color: salmon;
+        }
     </style>
 </head>
 <body>
@@ -17,6 +19,10 @@
 
     <div id="game-view" style="display: none;">
         <h2>Game view!</h2>
+        <h3 id="currentNumber"></h3>
+
+        <div id="winner" style="display:none"></div>
+
         <button id="start-game">Start!</button>
 
 

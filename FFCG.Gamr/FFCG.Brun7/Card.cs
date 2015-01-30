@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace FFCG.Brun7
 {
@@ -67,5 +68,7 @@ namespace FFCG.Brun7
                         _card[row, col].Check();
                 });
         }
+
+      
     }
 }

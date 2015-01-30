@@ -12,14 +12,20 @@
     // Create a function that the hub can call to broadcast messages.
 
     var gameId;
-    var gamePlayers;
-
-    function refreshGameRoom() {
-        for (var i = 0; i < gamePlayers.length; i++) {
-            var player = gamePlayers[i];
+    function refreshGameRoom(players) {
+        for (var i = 0; i < players.length; i++) {
+            var player = players[i];
 
             var rows = player.Rows;
             var table = document.createElement('table');
+
+            //var headerRow = document.createElement('tr');
+            //var headerCell = document.createElement('td');
+            //headerCell.colSpan = 5;
+            //headerCell.createTextNode(player.Name);
+
+            //headerRow.appendChild(headerCell);
+            //table.appendChild(headerRow);
 
             for (var r = 0, tr; r < rows.length; r++) {
                 var row = rows[r];
@@ -28,14 +34,19 @@
                 for (var c = 0; c < row.Squares.length; c++) {
                     var square = row.Squares[c];
                     var td = document.createElement('td');
-                    td.appendChild(document.createTextNode(square.Number + ' ' + square.Checked));
+                    td.appendChild(document.createTextNode(square.Number));
+
+                    if (square.Checked) {
+                        td.className = "checked";
+                    }
+
                     tr.appendChild(td);
                 }
 
                 table.appendChild(tr);
             }
             
-            $("#cards").append($(table));
+            $("#cards").html($(table));
 
         }
     };
@@ -52,12 +63,19 @@
         $("#game-view").show();
 
         gameId = id;
-        gamePlayers = players;
 
-        refreshGameRoom();
+        refreshGameRoom(players);
     }
 
-    
+    hub.client.refreshCurrentGameState = function (currentNumber, players) {
+        $("#currentNumber").append(currentNumber + ', ');
+        refreshGameRoom(players);
+    }
+
+    hub.client.announceBingoWinner = function(winner) {
+        $("#winner").text(winner + " has bingo!!!");
+        $("#winner").fadeIn(500);
+    }
 
     $.connection.hub.start().done(function () {
 
@@ -68,7 +86,7 @@
         });
 
         $("#start-game").click(function() {
-            //hub.server.startGame(gameId);
+            hub.server.startGame(gameId);
         });
     });
 

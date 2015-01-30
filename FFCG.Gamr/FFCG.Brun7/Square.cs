@@ -19,7 +19,7 @@
         public override string ToString()
         {
             if (Checked)
-                return "X";
+                return Number + "X";
 
             return Number.ToString();
         }

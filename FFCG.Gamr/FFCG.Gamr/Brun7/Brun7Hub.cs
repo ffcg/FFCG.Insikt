@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+
 using System.Web;
+using System.Web.Hosting;
 using FFCG.Brun7;
 using Microsoft.AspNet.SignalR;
 
@@ -10,16 +13,9 @@ namespace FFCG.Gamr.Brun7
 {
     public class Brun7Hub : Hub
     {
-        private List<BingoGame> _games;
-
-        public Brun7Hub()
-        {
-            _games = new List<BingoGame>();
-        }
-
         public void Hello()
         {
-            Clients.All.listGames(_games);
+            Clients.All.listGames(WebApiApplication.BingoGames);
         }
 
         public void CreateGame(string playerName)
@@ -31,10 +27,20 @@ namespace FFCG.Gamr.Brun7
             var bingoGame = new BingoGame(roomId);
             var bingoPlayer = new BingoPlayer(Context.ConnectionId, playerName);
             bingoGame.AddPlayer(bingoPlayer);
-            _games.Add(bingoGame);
+            WebApiApplication.BingoGames.Add(bingoGame);
 
             Clients.Group(roomId).roomCreated(roomId, bingoGame.Players);
-            Clients.AllExcept(Context.ConnectionId).listGames(_games);
+            Clients.AllExcept(Context.ConnectionId).listGames(WebApiApplication.BingoGames);
         }
+
+        public void StartGame(string gameId)
+        {
+
+            var game = WebApiApplication.BingoGames.FirstOrDefault(x => x.RoomId == gameId.ToString());
+            game.StartGame(Clients);
+
+        }
+
+        
     }
 }
