@@ -25,7 +25,7 @@ namespace Battleship.Domain
 
         public bool AllShipsArePlaced
         {
-            get { return Players.All(x => x.PlacedShips.Count == NumberOfShipsPerPlayer); }
+            get { return Players.All(x => x.Ships.Count == NumberOfShipsPerPlayer); }
         }
 
         public Game(int numberOfShipsPerPlayer)
@@ -33,6 +33,16 @@ namespace Battleship.Domain
             Id = Guid.NewGuid();
             Players = new List<Player>();
             NumberOfShipsPerPlayer = numberOfShipsPerPlayer;
+        }
+
+        public Player GetPlayer(Guid playerId)
+        {
+            return Players.First(x => x.Id == playerId);
+        }
+
+        public Player GetEnemyOf(Guid playerId)
+        {
+            return Players.First(x => x.Id != playerId);
         }
 
         public Player AddPlayer(string name)
