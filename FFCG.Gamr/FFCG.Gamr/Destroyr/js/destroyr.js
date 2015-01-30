@@ -18,6 +18,8 @@
 
     var gameState = {
         World: {
+            Width: canvas.scrollWidth,
+            Height: canvas.scrollHeight,
             GameObjects: [
                 {
                     Name: 'Test1',
@@ -57,19 +59,37 @@
         // TODO
     }
 
-    function animateGameObject(object) {
+    function animateGameObject(world, object) {
         object.Position.X += object.Velocity.X;
         object.Position.Y += object.Velocity.Y;
+
+        if (object.Position.X > world.Width) {
+            object.Position.X -= world.Width;
+        }
+        else if (object.Position.X < 0) {
+            object.Position.X = world.Width + object.Position.X;
+        }
+        if (object.Position.Y > world.Width) {
+            object.Position.Y -= world.Width;
+        }
+        else if (object.Position.Y < 0) {
+            object.Position.Y = world.Width + object.Position.Y;
+        }
+        if (object.Local && object.Local.update) {
+            object.Local.update();
+        }
+
     }
 
     function animateWorld(world) {
         _.each(world.GameObjects, function (object) {
-            animateGameObject(object);
+            animateGameObject(world, object);
         });
+        world.GameObjects = _.reject(world.GameObjects, function(object) { return object.RemoveMe; });
     }
 
     function applyUserActionOnClient(actionName, userAction) {
-        console.log(actionName);
+        //console.log(actionName);
         var ship = gameState.World.GameObjects[0];
         if (actionName === 'Rotate') {
             ship.Rotation = (ship.Rotation + userAction.Direction * rotateSpeed) % 360;
@@ -88,6 +108,15 @@
                 ],
                 Rotation: 0,
                 Velocity: { X: ship.Velocity.X + Math.cos(rotation) * bulletSpeed, Y: ship.Velocity.Y + Math.sin(rotation) * bulletSpeed },
+                Local: {
+                    age: 0,
+                    update: function() {
+                        bullet.Local.age++;
+                        if (bullet.Local.age > 100) {
+                            bullet.RemoveMe = true;
+                        }
+                    }
+                }
             };
             gameState.World.GameObjects.push(bullet);
         }
