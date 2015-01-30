@@ -8,7 +8,7 @@ namespace FFCG.Gamr
         {
             config.MapHttpAttributeRoutes();
 
-            config.Routes.MapHttpRoute("DefaultApi", "battleship/{controller}/{id}", new { id = RouteParameter.Optional }
+            config.Routes.MapHttpRoute("DefaultApi", "battleship/{controller}/{action}/{value}", new { id = RouteParameter.Optional }
             );
         }
     }
