@@ -39,15 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cell.cs" />
-    <Compile Include="Game.cs" />
+    <Compile Include="Domain\Cell.cs" />
+    <Compile Include="Domain\Game.cs" />
     <Compile Include="IHandleRequests.cs" />
     <Compile Include="IRequest.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="Domain\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Ship.cs" />
+    <Compile Include="Domain\Ship.cs" />
     <Compile Include="ShootCellHandler.cs" />
-    <Compile Include="ShotsFired.cs" />
+    <Compile Include="Domain\ShotsFired.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

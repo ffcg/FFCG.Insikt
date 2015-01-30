@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Battleship
+namespace Battleship.Domain
 {
     public class Cell : IEquatable<Cell>
     {
