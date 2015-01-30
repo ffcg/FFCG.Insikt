@@ -13,7 +13,7 @@ namespace Battleship
         public string Name { get; set; }
     }
 
-    public class AddPlayerHandler: IHandleRequests<JoinGame, AddedPlayerViewModel>
+    public class JoinGameHandler: IHandleRequests<JoinGame, AddedPlayerViewModel>
     {
         public AddedPlayerViewModel Request(JoinGame request)
         {
