@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNet.SignalR;
 
 namespace Battleship
 {
@@ -18,7 +19,10 @@ namespace Battleship
     {
         public AddedPlayerViewModel Handle(JoinGame request)
         {
-            var game = GameController.Get().GetCurrentGame();
+            var hubContext = GlobalHost.ConnectionManager.GetHubContext<BattleshipHub>();
+
+            var controller = GameController.Get();
+            var game = controller.GetCurrentGame();
             var player = game.AddPlayer(request.Name);
             
             var viewModel = new AddedPlayerViewModel
@@ -28,15 +32,13 @@ namespace Battleship
                 Name = player.Name,
             };
 
-            var hub = new BattleshipHub();
-
             if (game.IsWaitingForPlayers)
             {
-                hub.NotifyThatGameIsWaitingForSecondPlayer(game.Id);
+                hubContext.Clients.All.gameIsWaitingForSecondPlayer(game.Id);
             }
             else
             {
-                hub.NotifyThatGameIsReadyToStart(game.Id);
+                hubContext.Clients.All.gameIsReadyToStart(game.Id);
             }
 
             return viewModel;
