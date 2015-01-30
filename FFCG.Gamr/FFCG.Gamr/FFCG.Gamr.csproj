@@ -147,7 +147,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Battleship\BattleshipHub.cs" />
-    <Compile Include="Battleship\Controllers\DefaultController.cs" />
+    <Compile Include="Battleship\Controllers\GameController.cs" />
     <Compile Include="Brun7\Brun7Hub.cs" />
     <Compile Include="ChatHub.cs" />
     <Compile Include="Destroyr\DestroyrHub.cs" />

@@ -3,7 +3,7 @@ using System.Web.Http;
 
 namespace FFCG.Gamr.Battleship.Controllers
 {
-    public class DefaultController : ApiController
+    public class GameController : ApiController
     {
         // GET: api/Default
         public IEnumerable<string> Get()
