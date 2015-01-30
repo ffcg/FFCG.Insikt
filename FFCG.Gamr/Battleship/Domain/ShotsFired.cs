@@ -1,4 +1,4 @@
-﻿namespace Battleship
+﻿namespace Battleship.Domain
 {
     public class ShotsFired
     {

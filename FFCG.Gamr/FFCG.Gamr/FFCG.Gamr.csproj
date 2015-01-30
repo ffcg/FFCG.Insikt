@@ -128,6 +128,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Brun7\index.html" />
+    <Content Include="Brun7\js\brun7.js" />
     <Content Include="Destroyr\index.html" />
     <Content Include="Destroyr\js\destroyr.js" />
     <Content Include="Global.asax" />
@@ -146,6 +148,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Battleship\BattleshipHub.cs" />
     <Compile Include="Battleship\Controllers\DefaultController.cs" />
+    <Compile Include="Brun7\Brun7Hub.cs" />
     <Compile Include="ChatHub.cs" />
     <Compile Include="Destroyr\DestroyrHub.cs" />
     <Compile Include="Global.asax.cs">
@@ -158,6 +161,12 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Battleship\js\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FFCG.Brun7\FFCG.Brun7.csproj">
+      <Project>{7926D1E3-1573-4C8A-8329-D9DF19F23640}</Project>
+      <Name>FFCG.Brun7</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

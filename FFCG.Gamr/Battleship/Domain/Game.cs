@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Battleship
+namespace Battleship.Domain
 {
     public class Game
     {
@@ -66,7 +66,7 @@ namespace Battleship
             return _activePlayer;
         }
 
-        public bool ShootCell(Guid playerId, Guid enemyPlayerId, Cell target)
+        public bool Fire(Guid playerId, Guid enemyPlayerId, Cell target)
         {
             var player = Players.Single(x => x.Id == playerId);
             var enemyPlayer = Players.Single(x => x.Id == enemyPlayerId);
