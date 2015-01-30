@@ -3,34 +3,6 @@ using System.Collections.Generic;
 
 namespace Battleship
 {
-    public interface IRequest<TReponse>
-    {
-        
-    }
-
-    public class ShootCellResponse
-    {
-        bool Success { get; set; }
-    }
-
-    public class ShootCell : IRequest<ShootCellResponse>
-    {
-        
-    }
-
-    public interface IHandleRequests<in TRequest, out TResponse>
-    {
-        TResponse Request(TRequest request);
-    }
-
-    public class ShotCellHandler : IHandleRequests<ShootCell, ShootCellResponse>
-    {
-        public ShootCellResponse Request(ShootCell request)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     public class Game
     {
         public List<Player> Players { get; set; }
@@ -70,6 +42,4 @@ namespace Battleship
         public int X { get; set; }
         public int Y { get; set; }
     }
-
-    
 }
