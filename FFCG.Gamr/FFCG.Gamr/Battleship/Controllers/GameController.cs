@@ -9,7 +9,7 @@ namespace FFCG.Gamr.Battleship.Controllers
         public void Join(string value)
         {
             var joinGameHandler = new JoinGameHandler();
-            var player = joinGameHandler.Handle(new JoinGame() { Name = playerAlias });
+            var player = joinGameHandler.Handle(new JoinGame() { Name = value });
         }
     }
 }
