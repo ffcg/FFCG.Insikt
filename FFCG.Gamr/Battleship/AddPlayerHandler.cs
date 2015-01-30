@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Battleship
 {
@@ -12,20 +8,28 @@ namespace Battleship
         public string Name { get; set; }
     }
 
-    public class AddPlayer : IRequest<AddedPlayerViewModel>
+    public class JoinGame : IRequest<AddedPlayerViewModel>
     {
         public string Name { get; set; }
     }
 
-    public class AddPlayerHandler: IHandleRequests<AddPlayer, AddedPlayerViewModel>
+    public class AddPlayerHandler: IHandleRequests<JoinGame, AddedPlayerViewModel>
     {
-        public AddedPlayerViewModel Request(AddPlayer request)
+        public AddedPlayerViewModel Request(JoinGame request)
         {
-            //add player to game
-            //return added player info
+            var game = GameController.Get().GetCurrentGame();
+            var player = game.AddPlayer(request.Name);
+            
+            var viewModel = new AddedPlayerViewModel
+            {
+                PlayerId = player.Id,
+                Name = player.Name,
+            };
+
             //if other player exists, use signal r to notify both that game is ready to start
             //if no other player exists, notify player that he needs to wait
-            return null;
+
+            return viewModel;
         }
     }
 }
