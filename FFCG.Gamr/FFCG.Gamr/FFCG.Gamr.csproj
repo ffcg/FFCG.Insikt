@@ -118,6 +118,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Battleship\index.cshtml" />
     <None Include="Properties\PublishProfiles\FFCGGamr.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -127,7 +128,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Battleship\index.html" />
     <Content Include="Destroyr\index.html" />
     <Content Include="Destroyr\js\destroyr.js" />
     <Content Include="Global.asax" />
