@@ -65,7 +65,7 @@
     <Compile Include="Domain\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Domain\Ship.cs" />
-    <Compile Include="ShootCellHandler.cs" />
+    <Compile Include="FireHandler.cs" />
     <Compile Include="Domain\ShotsFired.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -18,8 +18,8 @@ namespace Battleship
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<BattleshipHub>();
 
             var game = GameController.Get().GetCurrentGame();
-            
-            var player = game.Players.First(x => x.Id == request.PlayerId);
+
+            var player = game.GetPlayer(request.PlayerId);
             player.PlaceShip(request.X, request.Y);
 
             if (game.AllShipsArePlaced)
