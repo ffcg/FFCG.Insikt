@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Web.Http;
+﻿using System.Web.Http;
 using Battleship;
 
 namespace FFCG.Gamr.Battleship.Controllers
@@ -9,7 +8,7 @@ namespace FFCG.Gamr.Battleship.Controllers
         public void Join(string value)
         {
             var joinGameHandler = new JoinGameHandler();
-            var player = joinGameHandler.Handle(new JoinGame() { Name = value });
+            joinGameHandler.Handle(new JoinGame() { Name = value });
         }
     }
 }

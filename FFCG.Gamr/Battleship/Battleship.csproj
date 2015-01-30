@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BattleshipHub.cs" />
+    <Compile Include="PlaceShipHandler.cs" />
     <Compile Include="JoinGameHandler.cs" />
     <Compile Include="GameController.cs" />
     <Compile Include="Domain\Cell.cs" />
