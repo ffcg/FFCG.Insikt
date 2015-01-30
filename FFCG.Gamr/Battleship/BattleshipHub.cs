@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
 
 namespace Battleship
@@ -14,15 +13,5 @@ namespace Battleship
         {
             return base.OnConnected();
         }
-
-        //public void NotifyThatGameIsWaitingForSecondPlayer(Guid gameId)
-        //{
-        //    Clients.All.gameIsWaitingForSecondPlayer(gameId);
-        //}
-
-        //public void NotifyThatGameIsReadyToStart(Guid gameId)
-        //{
-        //    Clients.All.gameIsReadyToStart(gameId);
-        //}
     }
 }

@@ -34,11 +34,11 @@ namespace Battleship
 
             if (game.IsWaitingForPlayers)
             {
-                hubContext.Clients.All.gameIsWaitingForSecondPlayer(game.Id);
+                hubContext.Clients.All.gameIsWaitingForSecondPlayer(game.Id, player.Id);
             }
             else
             {
-                hubContext.Clients.All.gameIsReadyToStart(game.Id);
+                hubContext.Clients.All.gameIsReadyToStart(game.Id, player.Id);
             }
 
             return viewModel;
