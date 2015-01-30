@@ -1,45 +1,31 @@
-﻿using System;
+﻿using Microsoft.AspNet.SignalR;
 
 namespace Battleship
 {
-    public class AddedPlayerViewModel
-    {
-        public Guid GameId { get; set; }
-        public Guid PlayerId { get; set; }
-        public string Name { get; set; }
-    }
-
-    public class JoinGame : IRequest<AddedPlayerViewModel>
+    public class JoinGame : IRequest
     {
         public string Name { get; set; }
     }
 
-    public class JoinGameHandler: IHandleRequests<JoinGame, AddedPlayerViewModel>
+    public class JoinGameHandler: IHandleRequests<JoinGame>
     {
-        public AddedPlayerViewModel Handle(JoinGame request)
+        public void Handle(JoinGame request)
         {
-            var game = GameController.Get().GetCurrentGame();
+            var hubContext = GlobalHost.ConnectionManager.GetHubContext<BattleshipHub>();
+
+            var controller = GameController.Get();
+            var game = controller.GetCurrentGame();
             var player = game.AddPlayer(request.Name);
             
-            var viewModel = new AddedPlayerViewModel
-            {
-                GameId = game.Id,
-                PlayerId = player.Id,
-                Name = player.Name,
-            };
-
-            var hub = new BattleshipHub();
-
             if (game.IsWaitingForPlayers)
             {
-                hub.NotifyThatGameIsWaitingForSecondPlayer(game.Id);
+                hubContext.Clients.All.gameIsWaitingForSecondPlayer(game.Id, player.Id);
             }
             else
             {
-                hub.NotifyThatGameIsReadyToStart(game.Id);
+                game.Start();
+                hubContext.Clients.All.gameHasBeenStarted(game.Id, player.Id);
             }
-
-            return viewModel;
         }
     }
 }

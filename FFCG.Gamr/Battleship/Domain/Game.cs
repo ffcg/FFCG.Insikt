@@ -23,11 +23,26 @@ namespace Battleship.Domain
             get { return Players.Count() < 2; }
         }
 
+        public bool AllShipsArePlaced
+        {
+            get { return Players.All(x => x.Ships.Count == NumberOfShipsPerPlayer); }
+        }
+
         public Game(int numberOfShipsPerPlayer)
         {
             Id = Guid.NewGuid();
             Players = new List<Player>();
             NumberOfShipsPerPlayer = numberOfShipsPerPlayer;
+        }
+
+        public Player GetPlayer(Guid playerId)
+        {
+            return Players.First(x => x.Id == playerId);
+        }
+
+        public Player GetEnemyOf(Guid playerId)
+        {
+            return Players.First(x => x.Id != playerId);
         }
 
         public Player AddPlayer(string name)

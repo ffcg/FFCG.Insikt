@@ -8,7 +8,8 @@ namespace Battleship
         private Game _game;
 
         private GameController()
-        {}
+        {
+        }
 
         public static GameController Get()
         {

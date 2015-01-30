@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
 
 namespace Battleship
@@ -8,23 +7,11 @@ namespace Battleship
     {
         public void Handshake()
         {
-            
         }
 
         public override Task OnConnected()
         {
-            var test = Clients.Caller;
             return base.OnConnected();
-        }
-
-        public void NotifyThatGameIsWaitingForSecondPlayer(Guid gameId)
-        {
-            Clients.All.gameIsWaitingForSecondPlayer(gameId);
-        }
-
-        public void NotifyThatGameIsReadyToStart(Guid gameId)
-        {
-            Clients.All.gameIsReadyToStart(gameId);
         }
     }
 }
