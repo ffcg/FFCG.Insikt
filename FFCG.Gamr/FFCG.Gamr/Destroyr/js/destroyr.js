@@ -40,10 +40,11 @@
         }
     }
 
-    var rotateSpeed = 2.0;
-    var acceleration = 0.2;
-    var bulletSpeed = 2.5;
-    var reloadTime = 200;
+    var updateFrequency = 10; // ms
+    var rotateSpeed = 0.2;
+    var acceleration = 0.02;
+    var bulletSpeed = 0.25;
+    var reloadTime = 500; // milliseconds
 
     function toDegrees(angle) {
         return angle * (180 / Math.PI);
@@ -82,29 +83,30 @@
         world.GameObjects = _.reject(world.GameObjects, function(object) { return object.RemoveMe; });
     }
 
-    function applyUserActionOnClient(actionName) {
+    function applyUserActionOnClient(actionName, elapsedTime) {
         //console.log(actionName);
+        var timeFactor = elapsedTime;
         var ship = gameState.World.GameObjects[0];
         if (actionName === 'RotateLeft') {
-            ship.Rotation = (ship.Rotation - rotateSpeed) % 360;
+            ship.Rotation = (ship.Rotation - rotateSpeed * timeFactor) % 360;
         }
         else if (actionName === 'RotateRight') {
-            ship.Rotation = (ship.Rotation + rotateSpeed) % 360;
+            ship.Rotation = (ship.Rotation + rotateSpeed * timeFactor) % 360;
         }
         else if (actionName === 'Thrust') {
             var rotation = toRadians(ship.Rotation);
-            ship.Velocity.X += Math.cos(rotation) * acceleration;
-            ship.Velocity.Y += Math.sin(rotation) * acceleration;
+            ship.Velocity.X += Math.cos(rotation) * acceleration * timeFactor;
+            ship.Velocity.Y += Math.sin(rotation) * acceleration * timeFactor;
         }
         else if (actionName === 'Fire') {
             var rotation = toRadians(ship.Rotation);
             var bullet = {
-                Position: { X: ship.Position.X + Math.cos(rotation) * ship.Shape[1].X, Y: ship.Position.Y + Math.sin(rotation) * ship.Shape[1].Y },
+                Position: { X: ship.Position.X + Math.cos(rotation) * ship.Shape[1].X, Y: ship.Position.Y + Math.sin(rotation) * ship.Shape[1].X },
                 Shape: [
                     { X: -2, Y: -2 }, { X: 2, Y: 0 }, { X: -2, Y: 2 }
                 ],
                 Rotation: 0,
-                Velocity: { X: ship.Velocity.X + Math.cos(rotation) * bulletSpeed, Y: ship.Velocity.Y + Math.sin(rotation) * bulletSpeed },
+                Velocity: { X: ship.Velocity.X + Math.cos(rotation) * bulletSpeed * timeFactor, Y: ship.Velocity.Y + Math.sin(rotation) * bulletSpeed * timeFactor },
                 Local: {
                     age: 0,
                     update: function() {
@@ -119,7 +121,7 @@
         }
     }
 
-    function handleUserAction(actionName) {
+    function handleUserAction(actionName, elapsedTime) {
         var hubAction = 0;
         switch (actionName) {
             case 'RotateLeft':
@@ -136,29 +138,33 @@
                 break;
         }
         hub.server.userAction(hubAction);
-        applyUserActionOnClient(actionName);
+        applyUserActionOnClient(actionName, elapsedTime);
     }
 
     var lastFireTime = 0;
+    var lastUpdateTime = 0;
 
     function handleInput() {
         var currentTime = Date.now();
+        var elapsedTime = currentTime - lastUpdateTime;
+        lastUpdateTime = currentTime;
         if (gameInput.keys[gameInput.key.LEFT]) {
-            handleUserAction('RotateLeft');
+            handleUserAction('RotateLeft', elapsedTime);
         }
         if (gameInput.keys[gameInput.key.RIGHT]) {
-            handleUserAction('RotateRight');
+            handleUserAction('RotateRight', elapsedTime);
         }
         if (gameInput.keys[gameInput.key.UP]) {
-            handleUserAction('Thrust');
+            handleUserAction('Thrust', elapsedTime);
         }
         if (gameInput.keys[gameInput.key.SPACE]) {
             var timeSinceLastFire = currentTime - lastFireTime;
             if (timeSinceLastFire > reloadTime) {
                 lastFireTime = currentTime;
-                handleUserAction('Fire');
+                handleUserAction('Fire', elapsedTime);
             }
         }
+
     }
 
 
@@ -169,7 +175,7 @@
         gameRenderer.render(gameState);
         setTimeout(function () {
             receiveInput();
-        }, 10);
+        }, updateFrequency);
     }
     hub.client.updateState = function (newGameState) {
         //gameState = newGameState;
@@ -184,9 +190,10 @@
         $("#joinDiv").hide();
         $("#gameCanvas").show();
         var playerName = $("#playerName").val();
-        //hub.server.join(playerName);
+        hub.server.join(playerName);
         gameRenderer.playerName = playerName;
         gameInput.startCapturing();
+        lastUpdateTime = Date.now();
         gameRenderer.render(gameState);
         receiveInput();
     }
