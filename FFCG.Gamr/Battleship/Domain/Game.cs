@@ -70,7 +70,7 @@ namespace Battleship.Domain
 
         public Player GetActivePlayer()
         {
-            if (IsStarted)
+            if (!IsStarted)
                 throw new ApplicationException("Game has not yet started");
             
             if (_activePlayer == null)
