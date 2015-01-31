@@ -39,6 +39,9 @@
         <script type="text/javascript">
 
             var globalPlayerId;
+            var placedShips = [];
+            var playerHasPlacedAllShips = false;
+            var isActive = false;
 
             $(function() {
                 // Declare a proxy to reference the hub.
@@ -51,11 +54,57 @@
                 };
 
                 hub.client.gameHasBeenStarted = function(gameId) {
-                    $('#status').text("Oppenent connected");
+                    $('#status').text("Opponent connected");
                 };
 
                 hub.client.allShipsHaveBeenPlaced = function (gameId, activePlayerId) {
                     $('#status').text("GameOn!!");
+                };
+
+                hub.client.newActivePlayer = function (activePlayerId) {
+                    isActive = globalPlayerId == activePlayerId;
+                };
+
+                hub.client.shipHasBeenPlaced = function (gameId, playerId, x, y) {
+                    if (globalPlayerId != playerId)
+                        return;
+
+                    placedShips.push({ row: x, cell: y });
+
+                    if (placedShips.length == 5) {
+                        playerHasPlacedAllShips  = true;
+                    }
+
+                    var cell = $("div[data-x=" + x + "][data-y=" + y + "]");
+                    cell.addClass("ship");
+                };
+
+                hub.client.allShipsHaveBeenPlaced = function (gameId, activePlayerId) {
+                    if (globalPlayerId == activePlayerId) {
+                        $('#status').text("Fire at will!");
+                        isActive = true;
+                    }
+                    else {
+                        $('#status').text("Duck and cover!");
+                    }
+                };
+
+                hub.client.playerSunkShip = function (playerId, enemyId, x, y) {
+
+                };
+
+                hub.client.playerMissed = function (playerId, enemyId, x, y) {
+                    if (globalPlayerId == playerId) {
+                        $('#status').text("You missed!");
+                        isActive = true;
+                    }
+                    else {
+                        $('#status').text("Your ships are safe!");
+                    }
+                };
+
+                hub.client.gameOver = function (winnerPlayerId) {
+
                 };
             });
 
@@ -65,22 +114,42 @@
                         contentType: "text/plain"
                     })
                     .done(function (playerId) {
-                    alert(playerId);
                         globalPlayerId = playerId;
                     });
             });
 
             $(".column").click(function() {
-                $.ajax("game/placeship", {
-                    type: "post",
-                    data: JSON.stringify(
-                    {
-                        PlayerId : globalPlayerId,
-                        X : 0,
-                        Y: 0
-                    }),
-                    contentType: "application/json"
-                });
+                var cell = $(this);
+
+                if (playerHasPlacedAllShips) {
+                    if (!isActive)
+                        return;
+                    
+                    //if active player, fire shot at cell
+                    $.ajax("game/fire", {
+                        type: "post",
+                        data: JSON.stringify(
+                        {
+                            PlayerId: globalPlayerId,
+                            X: cell.attr('data-x'),
+                            Y: cell.attr('data-y')
+                        }),
+                        contentType: "application/json"
+                    });
+
+                } else {
+                    //  place ship
+                    $.ajax("game/placeship", {
+                        type: "post",
+                        data: JSON.stringify(
+                        {
+                            PlayerId: globalPlayerId,
+                            X: cell.attr('data-x'),
+                            Y: cell.attr('data-y')
+                        }),
+                        contentType: "application/json"
+                    });
+                }
             });
         </script>
     </body>

@@ -64,6 +64,7 @@
     };
 
     hub.client.roomCreated = function (id, game) {
+
         //hide create view
         $("#create-area").hide();
         $("#join-area").hide();
@@ -98,8 +99,9 @@
 
 
     hub.client.announceBingoWinner = function (winner) {
-        $("#winner").text(winner + " has bingo!!!");
-        $("#winner").show();
+        $("#winner").text(winner + " has bingo!");
+
+        $('#myModal').modal('toggle');
 
         if (isCreator)
             $("#reset-game").show();
@@ -114,7 +116,8 @@
 
     hub.client.gameResetted = function() {
         $("#reset-game").hide();
-        $("#winner").hide();
+        $("#myModal").modal('hide');
+       
         $("#currentNumber").html("");
     }
 

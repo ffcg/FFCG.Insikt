@@ -58,13 +58,13 @@
     <div id="game-view" style="display: none;">
         <div id="adminarea" style="display: none;">
             <button id="start-game" class="btn btn-success">Start!</button>
-            <button id="reset-game" class="btn btn-danger">Reset</button>
-            Current speed: <span class="speed"></span>
+            <button id="reset-game" class="btn btn-danger">Restart</button>
+            Speed:
             <button id="increase" class="btn btn-success">+</button>
             <button id="decrease" class="btn btn-danger">-</button>
         </div>
         <div>
-            
+            Current speed: <span class="speed"></span>
         </div>
 
         <div style="float: left;">
@@ -75,16 +75,31 @@
         <div style="clear: both; padding-top: 10px;">
 
 
-            <div id="winner" style="display: none"></div>
+            
 
 
         </div>
     </div>
 
     <div id="cards">
-        
+
     </div>
 </div>
+
+    <!-- Button trigger modal -->
+    <!--<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+        
+    </button>-->
+
+    <!-- Modal -->
+    <div  id="myModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" >
+            <div class="modal-content" style="background: aqua">
+                <h2 style="color: magenta">BINGO!</h2>
+                <div id="winner"></div>
+            </div>
+        </div>
+    </div>
 
 
 <!--Script references. -->
