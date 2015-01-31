@@ -18,7 +18,7 @@ namespace FFCG.Brun7.Retro
 
             proxy.On<object, object>("refreshCurrentGameState", (currentNumber, game) =>
             {
-                Console.Write(currentNumber + " ");
+                Console.Write("\n" + currentNumber + " ");
 
             });
 
