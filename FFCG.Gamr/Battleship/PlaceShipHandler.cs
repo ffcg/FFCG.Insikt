@@ -21,6 +21,8 @@ namespace Battleship
             var player = game.GetPlayer(request.PlayerId);
             player.PlaceShip(request.X, request.Y);
 
+            hubContext.Clients.All.shipHasBeenPlaced(game.Id, player.Id, request.X, request.Y);
+
             if (game.AllShipsArePlaced)
             {
                 var activePlayer = game.GetActivePlayer();
