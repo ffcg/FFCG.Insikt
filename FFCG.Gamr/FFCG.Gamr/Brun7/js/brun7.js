@@ -116,6 +116,7 @@
 
     hub.client.gameResetted = function() {
         $("#reset-game").hide();
+        $("#myModal").modal('hide');
        
         $("#currentNumber").html("");
     }
