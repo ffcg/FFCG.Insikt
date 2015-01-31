@@ -55,10 +55,6 @@
         return angle * (Math.PI / 180);
     }
 
-    function sendUserActionToServer(actionName, userAction) {
-        // TODO
-    }
-
     function animateGameObject(world, object) {
         object.Position.X += object.Velocity.X;
         object.Position.Y += object.Velocity.Y;
@@ -88,11 +84,14 @@
         world.GameObjects = _.reject(world.GameObjects, function(object) { return object.RemoveMe; });
     }
 
-    function applyUserActionOnClient(actionName, userAction) {
+    function applyUserActionOnClient(actionName) {
         //console.log(actionName);
         var ship = gameState.World.GameObjects[0];
-        if (actionName === 'Rotate') {
-            ship.Rotation = (ship.Rotation + userAction.Direction * rotateSpeed) % 360;
+        if (actionName === 'RotateLeft') {
+            ship.Rotation = (ship.Rotation - rotateSpeed) % 360;
+        }
+        else if (actionName === 'RotateRight') {
+            ship.Rotation = (ship.Rotation + rotateSpeed) % 360;
         }
         else if (actionName === 'Thrust') {
             var rotation = toRadians(ship.Rotation);
@@ -122,29 +121,28 @@
         }
     }
 
-    function handleUserAction(actionName, userAction) {
-        sendUserActionToServer(actionName, userAction);
-        applyUserActionOnClient(actionName, userAction);
+    function handleUserAction(actionName) {
+        //hub.server.userAction(actionName);
+        applyUserActionOnClient(actionName);
     }
 
     function handleInput() {
         if (gameInput.keys[gameInput.key.LEFT]) {
-            handleUserAction('Rotate', { Direction: -1 });
+            handleUserAction('RotateLeft');
         }
         if (gameInput.keys[gameInput.key.RIGHT]) {
-            handleUserAction('Rotate', { Direction: 1 });
+            handleUserAction('RotateRight');
         }
         if (gameInput.keys[gameInput.key.UP]) {
-            handleUserAction('Thrust', {});
+            handleUserAction('Thrust');
         }
         if (gameInput.keys[gameInput.key.SPACE]) {
-            handleUserAction('Fire', {});
+            handleUserAction('Fire');
         }
     }
 
 
     function receiveInput() {
-        //console.log('hej');
         handleInput();
         animateWorld(gameState.World);
 
@@ -154,9 +152,14 @@
         }, 10);
     }
 
-    gameInput.startCapturing();
-    gameRenderer.render(gameState);
-    receiveInput();
+    $("#joinButton").click(function () {
+        var playerName = $("#playerName").val();
+        //hub.server.playerJoined(playerName);
+        gameInput.startCapturing();
+        gameRenderer.render(gameState);
+        receiveInput();
+    });
+
 
 
 });
