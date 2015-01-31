@@ -10,6 +10,8 @@ namespace Destroyer.Game
         public Point Center;
         public Point[] Geometry;
         public Rect BoundingBox;
+        public float Rotation;
+        public Vector Velocity;
 
         public virtual void UpdateBoundingBox()
         {
