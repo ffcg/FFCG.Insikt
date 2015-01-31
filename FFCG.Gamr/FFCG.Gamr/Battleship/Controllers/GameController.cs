@@ -12,7 +12,7 @@ namespace FFCG.Gamr.Battleship.Controllers
             joinGameHandler.Handle(new JoinGame { Name = value });
         }
 
-        public void PlaceShip(PlaceShipViewModel value)
+        public void PlaceShip(PlaceShipInputModel value)
         {
             var handler = new PlaceShipHandler();
             handler.Handle(new PlaceShip
@@ -22,9 +22,20 @@ namespace FFCG.Gamr.Battleship.Controllers
                 Y = value.Y,
             });
         }
+
+        public void Fire(PlaceShipInputModel value)
+        {
+            var handler = new FireHandler();
+            handler.Handle(new Fire
+            {
+                PlayerId = value.PlayerId,
+                X = value.X,
+                Y = value.Y,
+            });
+        }
     }
 
-    public class PlaceShipViewModel
+    public class PlaceShipInputModel
     {
         public Guid PlayerId { get; set; }
         public int X { get; set; }
