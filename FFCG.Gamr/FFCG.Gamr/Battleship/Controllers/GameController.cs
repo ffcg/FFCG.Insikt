@@ -6,13 +6,14 @@ namespace FFCG.Gamr.Battleship.Controllers
 {
     public class GameController : ApiController
     {
-        public void Join(string value)
+        public Guid Join(string value)
         {
             var joinGameHandler = new JoinGameHandler();
-            joinGameHandler.Handle(new JoinGame { Name = value });
+            var playerViewModel = joinGameHandler.Handle(new JoinGame { Name = value });
+            return playerViewModel.PlayerId;
         }
 
-        public void PlaceShip(PlaceShipInputModel value)
+        public void PlaceShip([FromBody]PlaceShipInputModel value)
         {
             var handler = new PlaceShipHandler();
             handler.Handle(new PlaceShip
