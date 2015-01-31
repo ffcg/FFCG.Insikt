@@ -14,6 +14,7 @@
     var gameRenderer = GameRenderer(canvas);
 
     var gameState = {
+        Players: [],
         World: {
             Width: canvas.scrollWidth,
             Height: canvas.scrollHeight,
@@ -38,6 +39,10 @@
     }
             ]
         }
+    }
+
+    function getRandom(min, max) {
+        return Math.floor((Math.random() * (max - min - 1)) + min);
     }
 
     var updateFrequency = 10; // ms
@@ -172,18 +177,23 @@
         handleInput();
         animateWorld(gameState.World);
 
-        gameRenderer.render(gameState);
+
         setTimeout(function () {
             receiveInput();
         }, updateFrequency);
     }
     hub.client.updateState = function (newGameState) {
         //gameState = newGameState;
-        //gameRenderer.render(gameState);
+        updateState();
     }
 
     function updateState() {
-        
+        gameRenderer.render(gameState);
+        $("#playerList").html("");
+        _.each(gameState.Players, function (player) {
+            $("#playerList").append("<li>" + player.Name + "</li>");
+        });
+
     }
 
     function joinGame() {
@@ -191,6 +201,7 @@
         $("#gameCanvas").show();
         var playerName = $("#playerName").val();
         hub.server.join(playerName);
+        gameState.Players.push({ Name: playerName });
         gameRenderer.playerName = playerName;
         gameInput.startCapturing();
         lastUpdateTime = Date.now();

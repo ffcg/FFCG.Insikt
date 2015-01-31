@@ -29,10 +29,12 @@ namespace Destroyer.Game
 
             player.Geometry = new Point[]
             {
-                new Point(){X = -5.0f, Y = -5.0f}, 
-                new Point(){X = 5.0f, Y = 0.0f}, 
-                new Point(){X = -5.0f, Y = 5.0f}, 
+                new Point(){X = -10.0f, Y = -10.0f}, 
+                new Point(){X = 20.0f, Y = 0.0f}, 
+                new Point(){X = -10.0f, Y = 10.0f}, 
             };
+
+            player.Center = Random.NewPoint(game.Board.Size);
 
             return player;
         }
