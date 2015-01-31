@@ -184,6 +184,8 @@
     }
     hub.client.updateState = function (newGameState) {
         //gameState = newGameState;
+
+        gameState = newGameState;
         updateState();
     }
 

@@ -31,7 +31,7 @@ namespace Destroyer.Game
         public void Update()
         {
             _ticks++;
-            _elapsedTicks = Environment.TickCount - _elapsedTicks;
+            _elapsedTicks = (int)Math.Min(Environment.TickCount - _elapsedTicks, 1000/10);
         }
     }
 }

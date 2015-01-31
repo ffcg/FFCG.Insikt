@@ -1,12 +1,99 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Destroyer.TwoD;
 
 namespace Destroyer.Game
 {
+
+    public static class GameConsoleRenderer
+    {
+        public static void Render(this GameEngine game, ITimer timer)
+        {
+            
+            //Console.Clear();
+            /*
+            Debug.WriteLine(@"                                                         _      _                                     ");
+            Debug.WriteLine(@" _______   _______     _______.___________..______       U______U  ____    ____  _______ .______      ");
+            Debug.WriteLine(@"|       \ |   ____|   /       |           ||   _  \      /  __  \  \   \  /   / |   ____||   _  \     ");
+            Debug.WriteLine(@"|  .--.  ||  |__     |   (----`---|  |----`|  |_)  |    |  |  |  |  \   \/   /  |  |__   |  |_)  |    ");
+            Debug.WriteLine(@"|  |  |  ||   __|     \   \       |  |     |      /     |  |  |  |   \_    _/   |   __|  |      /     ");
+            Debug.WriteLine(@"|  '--'  ||  |____.----)   |      |  |     |  |\  \----.|  `--'  |     |  |     |  |____ |  |\  \----.");
+            Debug.WriteLine(@"|_______/ |_______|_______/       |__|     | _| `._____| \______/      |__|     |_______|| _| `._____|");
+            */
+            Debug.WriteLine("");
+            Debug.WriteLine("Level: {0}, Run {1}", game.Board.Level, timer.Ticks());
+            Debug.WriteLine("======================================");
+
+            foreach (var item in game.Board.AllItems)
+            {
+                item.Render();
+            }
+
+            //game.RenderScene();
+
+            game.RenderCollisions();
+        }
+
+        public static void Render(this Item item)
+        {
+            Debug.WriteLine("Item: {0} [{1}]", item.Id, item.GetType().Name);
+            Debug.WriteLine("Pos: {0:N1} {1:N1} {2:N1} {3:N1} {4:N1} ", item.Center.X, item.Center.Y, item.Rotation, item.Velocity.X, item.Velocity.Y);
+            Debug.WriteLine("BB:  {0:N1} {1:N1} - {2:N1} {3:N1} ", item.BoundingBox.TopLeft.X, item.BoundingBox.TopLeft.Y, item.BoundingBox.BottomRight.X, item.BoundingBox.BottomRight.Y);
+            Debug.WriteLine("------------------------------------");
+        }
+
+        public static void RenderScene(this GameEngine game)
+        {
+            var scene = new char[(int)game.Board.Size.Width, (int)game.Board.Size.Height];
+
+            foreach (var item in game.Board.AllItems)
+            {
+                for (var i = item.BoundingBox.TopLeft.X; i < item.BoundingBox.BottomRight.X; i++)
+                {
+                    for (var j = item.BoundingBox.TopLeft.Y; j < item.BoundingBox.BottomRight.Y; j++)
+                    {
+                        if (((int)i > 0) && ((int)i < game.Board.Size.Width) && ((int)j > 0) && ((int)j < game.Board.Size.Height))
+                        {
+                            scene[(int)i, (int)j] = item.Id.ToString()[0];
+                        }
+                    }
+                }
+            }
+
+            Console.WriteLine("________________________________________________________________________");
+            for (var i = game.Board.Size.TopLeft.X; i < game.Board.Size.BottomRight.X; i++)
+            {
+                for (var j = game.Board.Size.TopLeft.Y; j < game.Board.Size.BottomRight.Y; j++)
+                {
+                    if (((int)i > 0) && ((int)i < game.Board.Size.Width) && ((int)j > 0) && ((int)j < game.Board.Size.Height))
+                    {
+                        Debug.Write(String.Format("{0}", scene[(int) i, (int) j]));
+                    }
+                }
+                Debug.WriteLine("");
+            }
+            Debug.WriteLine("________________________________________________________________________");
+        }
+
+        public static void RenderCollisions(this GameEngine game)
+        {
+            foreach (var collision in game.Collisions)
+            {
+                Debug.WriteLine("Collision {0} {1}", collision.A.Id, collision.B.Id);
+            }
+        }
+    }
     public class GameEngine
     {
         private readonly ITimer _timer;
+
+        private const float Rad360 = 2.0f * (float)Math.PI;
+
+        public ITimer Timer
+        {
+            get { return _timer; }
+        }
 
         public GameEngine(ITimer timer)
         {
@@ -26,6 +113,7 @@ namespace Destroyer.Game
 
         public void RunOne()
         {
+            _timer.Update();
             foreach (var item in Board.AllItems)
             {
                 item.UpdateBoundingBox();
@@ -45,6 +133,8 @@ namespace Destroyer.Game
                     Board.AllItems.Remove(item);
                 }
             }
+
+            this.Render(_timer);
         }
 
         public IEnumerable<Collision> UpdateCollisions()
@@ -72,12 +162,12 @@ namespace Destroyer.Game
                      || rect2.BottomRight.Y < rect1.TopLeft.Y);
         }
 
-        public Projectile ShootProjectile(Motile origin)
+        public Projectile ShootProjectile(Player player)
         {
             var projectile = new Projectile();
             projectile.Id = this.NextId++;
-            projectile.Center = origin.Center;
-            projectile.Rotation = origin.Rotation;
+            projectile.Center = player.Center;
+            projectile.Rotation = player.Rotation;
 
             projectile.Geometry = new Point[]
             {
@@ -99,17 +189,30 @@ namespace Destroyer.Game
 
         public void RotateLeft(Player player)
         {
-            
+            player.Rotation -= 10.0f * (float)Math.PI / 180.0f;
+            if (player.Rotation < 0)
+            {
+                player.Rotation += Rad360;
+            }
         }
 
         public void RotateRight(Player player)
         {
-            
+            player.Rotation += 10.0f * (float)Math.PI / 180.0f;
+            if (player.Rotation > Rad360)
+            {
+                player.Rotation -= Rad360;
+            }
         }
 
         public void Thrust(Player player)
         {
-            
+            var newVelocity = new Vector()
+            {
+                X = player.Velocity.X + .2f*(float) Math.Cos(player.Rotation),
+                Y = player.Velocity.Y + .2f * (float)Math.Sin(player.Rotation)
+            };
+            player.Velocity = newVelocity;
         }
     }
 }
