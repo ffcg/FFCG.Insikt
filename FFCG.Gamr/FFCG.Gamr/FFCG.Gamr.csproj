@@ -173,6 +173,10 @@
       <Project>{E87E6351-7D2C-43A4-A842-E4C22D120558}</Project>
       <Name>Battleship</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Destroyer.Api\Destroyer.csproj">
+      <Project>{FA027026-5256-44C6-BFE4-2EA29087C5A0}</Project>
+      <Name>Destroyer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FFCG.Brun7\FFCG.Brun7.csproj">
       <Project>{7926D1E3-1573-4C8A-8329-D9DF19F23640}</Project>
       <Name>FFCG.Brun7</Name>

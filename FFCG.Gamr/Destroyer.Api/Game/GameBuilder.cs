@@ -36,30 +36,6 @@ namespace Destroyer.Game
             return player;
         }
 
-        public static Projectile ShootProjectile(this GameEngine game, Motile origin)
-        {
-            var projectile = new Projectile();
-            projectile.Id = game.NextId++;
-            projectile.Center = origin.Center;
-            projectile.Rotation = origin.Rotation;
-
-            projectile.Geometry = new Point[]
-            {
-                new Point(){X = -0.5f, Y = -0.5f}, 
-                new Point(){X = 0.5f, Y = 0.0f}, 
-                new Point(){X = -0.5f, Y = 0.5f}, 
-            };
-            var speed = 50.0f;
-            projectile.Velocity = new Vector()
-            {
-                X = 10.0f * (float)Math.Cos(projectile.Rotation) * speed,
-                Y = 10.0f * (float)Math.Cos(projectile.Rotation) * speed
-            };
-
-            game.Board.AllItems.Add(projectile);
-
-            return projectile;
-        }
 
         public static Board StartLevel(this GameEngine game, int level)
         {

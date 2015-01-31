@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Destroyer.TwoD;
 
@@ -69,6 +70,46 @@ namespace Destroyer.Game
                      || rect2.BottomRight.X < rect1.TopLeft.X
                      || rect2.TopLeft.Y > rect1.BottomRight.Y
                      || rect2.BottomRight.Y < rect1.TopLeft.Y);
+        }
+
+        public Projectile ShootProjectile(Motile origin)
+        {
+            var projectile = new Projectile();
+            projectile.Id = this.NextId++;
+            projectile.Center = origin.Center;
+            projectile.Rotation = origin.Rotation;
+
+            projectile.Geometry = new Point[]
+            {
+                new Point(){X = -0.5f, Y = -0.5f}, 
+                new Point(){X = 0.5f, Y = 0.0f}, 
+                new Point(){X = -0.5f, Y = 0.5f}, 
+            };
+            var speed = 50.0f;
+            projectile.Velocity = new Vector()
+            {
+                X = 10.0f * (float)Math.Cos(projectile.Rotation) * speed,
+                Y = 10.0f * (float)Math.Cos(projectile.Rotation) * speed
+            };
+
+            this.Board.AllItems.Add(projectile);
+
+            return projectile;
+        }
+
+        public void RotateLeft(Player player)
+        {
+            
+        }
+
+        public void RotateRight(Player player)
+        {
+            
+        }
+
+        public void Thrust(Player player)
+        {
+            
         }
     }
 }
