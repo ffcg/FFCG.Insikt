@@ -23,6 +23,9 @@ namespace FFCG.Gamr.Brun7
         {
             var connectionId = Context.ConnectionId;
             var bingoGame = WebApiApplication.BingoGame;
+            if (bingoGame == null)
+                return base.OnDisconnected(stopCalled);
+
             bingoGame.RemovePlayer(connectionId);
 
             if (!bingoGame.Players.Any())
@@ -46,7 +49,7 @@ namespace FFCG.Gamr.Brun7
             bingoGame.AddPlayer(bingoPlayer);
             WebApiApplication.BingoGame = bingoGame;
 
-            Clients.Group(roomId).roomCreated(roomId, bingoGame.Players);
+            Clients.Group(roomId).roomCreated(roomId, bingoGame);
             Clients.AllExcept(Context.ConnectionId).refreshGlobalStatus(WebApiApplication.BingoGame);
         }
 
@@ -71,9 +74,17 @@ namespace FFCG.Gamr.Brun7
             var game = WebApiApplication.BingoGame;
             Groups.Add(Context.ConnectionId, game.RoomId);
             game.AddPlayer(new BingoPlayer(Context.ConnectionId, name));
-            Clients.Group(game.RoomId).playerJoined(game.RoomId, game.Players);
+            Clients.Group(game.RoomId).playerJoined(game.RoomId, game);
         }
 
-        
+        public void IncreaseSpeed()
+        {
+            WebApiApplication.BingoGame.IncreaseSpeed();
+        }
+
+        public void DecreaseSpeed()
+        {
+            WebApiApplication.BingoGame.LowerSpeed();
+        }
     }
 }

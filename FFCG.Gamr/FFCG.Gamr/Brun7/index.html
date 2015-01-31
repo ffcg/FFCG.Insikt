@@ -48,26 +48,36 @@
 
 
     <div id="create-area">
-        <button id="create_game" style="display: none;">Create game</button>
+        <button id="create_game" class="btn btn-success" style="display: none;">Create game</button>
     </div>
 
     <div id="join-area" style="display: none;">
-        <button id="join_game">Join game</button>
+        <button class="btn btn-primary" id="join_game">Join game</button>
     </div>
 
     <div id="game-view" style="display: none;">
+        <div id="adminarea" style="display: none;">
+            <button id="start-game" class="btn btn-success">Start!</button>
+            <button id="reset-game" class="btn btn-danger">Reset</button>
+            Current speed: <span class="speed"></span>
+            <button id="increase" class="btn btn-success">+</button>
+            <button id="decrease" class="btn btn-danger">-</button>
+        </div>
+        <div>
+            
+        </div>
+
         <div style="float: left;">
-            <img src="http://ateensonline.com/wp-content/uploads/2013/05/marie-serneholt-profile-587x700.jpg" width="80" height="100" />
+            <img src="http://ateensonline.com/wp-content/uploads/2013/05/marie-serneholt-profile-587x700.jpg" width="80" height="100"/>
         </div>
         <h3 id="currentNumber"></h3>
 
-        <div style="clear: both;">
+        <div style="clear: both; padding-top: 10px;">
 
 
             <div id="winner" style="display: none"></div>
 
-            <button id="start-game" style="display: none">Start!</button>
-            <button id="reset-game" style="display: none">Reset</button>
+
         </div>
     </div>
 

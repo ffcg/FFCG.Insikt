@@ -15,13 +15,15 @@ namespace FFCG.Brun7
 
         public Guid Id { get; private set; }
         public string RoomId { get; private set; }
-        public List<BingoPlayer> Players { get; private set; } 
+        public List<BingoPlayer> Players { get; private set; }
+        public decimal Speed { get; private set; }
 
         public BingoGame(string roomId)
         {
             RoomId = roomId;
             Id = Guid.NewGuid();
             Players = new List<BingoPlayer>();
+            Speed = 1;
         }
 
         public void AddPlayer(BingoPlayer player)
@@ -37,9 +39,31 @@ namespace FFCG.Brun7
             var numbers = Enumerable.Range(1, _rows * 5).OrderBy(x => Guid.NewGuid());
             _randomNumbers = new Stack<int>(numbers);
 
-            _timer = new Timer(DrawNumber, players, 0, 500);
+            _timer = new Timer(DrawNumber, players, 0, (int)(Speed * 1000));
 
             
+        }
+
+        public void IncreaseSpeed()
+        {
+            Speed += 0.1m;
+
+            if (_timer != null)
+            {
+                _timer.Change(0, (int) (Speed*1000));
+            }
+        }
+
+        public void LowerSpeed()
+        {
+            if (Speed > 0)
+            {
+                Speed -= 0.1m;
+                if(_timer != null)
+                {
+                    _timer.Change(0, (int)(Speed * 1000));
+                }
+            }
         }
 
         public void Reset()
@@ -66,7 +90,7 @@ namespace FFCG.Brun7
 
             var playerWithBingo = Players.FirstOrDefault(x => x.Card.IsBingo());
 
-            players.Group(RoomId).refreshCurrentGameState(currentNumber, Players);
+            players.Group(RoomId).refreshCurrentGameState(currentNumber, this);
             
             if (playerWithBingo != null)
             {

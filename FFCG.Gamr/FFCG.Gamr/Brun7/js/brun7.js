@@ -10,8 +10,11 @@
 
     var gameId;
     var isCreator = false;
-    function refreshGameRoom(players) {
+    function refreshGameRoom(game) {
         var tables = [];
+        var players = game.Players;
+
+        $(".speed").text(game.Speed);
 
         for (var i = 0; i < players.length; i++) {
             var player = players[i];
@@ -60,26 +63,27 @@
 
     };
 
-    hub.client.roomCreated = function (id, players) {
+    hub.client.roomCreated = function (id, game) {
         //hide create view
         $("#create-area").hide();
         $("#join-area").hide();
 
         //show game view
         $("#game-view").show();
-        $("#start-game").show();
+        //$("#start-game").show();
+        $("#adminarea").show();
 
         gameId = id;
         isCreator = true;
-        refreshGameRoom(players);
+        refreshGameRoom(game);
     }
 
-    hub.client.refreshCurrentGameState = function (currentNumber, players) {
+    hub.client.refreshCurrentGameState = function (currentNumber, game) {
         $("#currentNumber").append(currentNumber + ', ');
-        refreshGameRoom(players);
+        refreshGameRoom(game);
     }
 
-    hub.client.playerJoined = function (id, players) {
+    hub.client.playerJoined = function (id, game) {
         $("#create-area").hide();
         $("#join-area").hide();
 
@@ -88,7 +92,7 @@
 
         gameId = id;
 
-        refreshGameRoom(players);
+        refreshGameRoom(game);
     }
 
 
@@ -133,6 +137,14 @@
         $("#reset-game").click(function() {
             hub.server.resetGame();
             $("#reset-game").hide();
+        });
+
+        $("#increase").click(function () {
+            hub.server.increaseSpeed();
+        });
+
+        $("#decrease").click(function () {
+            hub.server.decreaseSpeed();
         });
     });
 
