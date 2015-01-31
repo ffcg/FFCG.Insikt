@@ -47,8 +47,12 @@
                     $('#status').text("Waiting for another player");
                 };
 
-                hub.client.gameIsReadyToStart = function(gameId) {
-                    $('#status').text("Player connected");
+                hub.client.gameHasBeenStarted = function(gameId) {
+                    $('#status').text("Oppenent connected");
+                };
+
+                hub.client.allShipsHaveBeenPlaced = function (gameId, activePlayerId) {
+                    $('#status').text("GameOn!!");
                 };
             });
 
@@ -60,7 +64,10 @@
             });
 
             $(".column").click(function() {
-                $('#status').text("Clicked " + $(this).attr('data-x') + " " + $(this).attr('data-y'));
+                $.ajax("game/placeship", {
+                    type: "post",
+                    contentType: "text/plain"
+                });
             });
         </script>
     </body>
