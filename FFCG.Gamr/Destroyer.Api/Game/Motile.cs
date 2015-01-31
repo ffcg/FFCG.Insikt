@@ -4,8 +4,6 @@ namespace Destroyer.Game
 {
     public class Motile : Item
     {
-        public Vector Velocity;
-        public float Rotation;
 
         public override void UpdatePhysics(float elapsed, Board board)
         {
