@@ -15,7 +15,7 @@ namespace Battleship.Domain
 
         public bool AllShipsAreSunk
         {
-            get { return Ships.All(x => !x.IsFloating); }
+            get { return !Ships.Any(x => x.IsFloating); }
         }
 
         public Player(string name, int numberOfShips)
