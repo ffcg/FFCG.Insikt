@@ -17,7 +17,7 @@ namespace FFCG.Brun7.Console
 
             //proxy.Invoke("Hello").Wait();
 
-            proxy.On<string, string>("StartGame", (name, message) => System.Console.Write("Message: " + name + " message: " + message));
+            proxy.On<string>("JoinGame", (name) => System.Console.Write("Name: " + name));
             brun7Hub.Start().Wait();
         }
     }
