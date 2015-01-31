@@ -43,7 +43,7 @@ namespace Destroyer.Game
             game.Board = new Board();
             game.Board.AllItems.AddRange(game.Players);
             game.Board.Level = level;
-            game.Board.Size = new Rect(0, 0, 100, 100);
+            game.Board.Size = new Rect(0, 0, 800, 800);
 
             // TODO: Create obstacles per level
 

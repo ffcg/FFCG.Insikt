@@ -172,8 +172,8 @@
         }, 10);
     }
     hub.client.updateState = function (newGameState) {
-        //gameState = newGameState;
-        //gameRenderer.render(gameState);
+        gameState = newGameState;
+        gameRenderer.render(gameState);
     }
 
     function updateState() {
@@ -184,7 +184,7 @@
         $("#joinDiv").hide();
         $("#gameCanvas").show();
         var playerName = $("#playerName").val();
-        //hub.server.join(playerName);
+        hub.server.join(playerName);
         gameRenderer.playerName = playerName;
         gameInput.startCapturing();
         gameRenderer.render(gameState);

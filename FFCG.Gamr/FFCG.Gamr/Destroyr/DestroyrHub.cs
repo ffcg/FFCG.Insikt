@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Destroyer.Actions;
@@ -9,67 +10,92 @@ using Microsoft.AspNet.SignalR;
 
 namespace FFCG.Gamr.Destroyr
 {
-    public class DestroyrHub : Hub
+    public class DestroyrRunner
     {
-        public readonly object Lock = new object();
-        public static List<DestroyrPlayer> Players;
-        public static List<DestroyrAction> Actions;
+        public Destroyer.Game.GameEngine Game;
+        public readonly object UpdateLock = new object();
+        private bool _hasCompletedUpdate = true;
+        public List<DestroyrPlayer> Players;
+        public List<DestroyrAction> Actions;
         private System.Threading.Timer _timer;
 
-        public void CreateGame()
-        {
-            lock (Lock)
-            {
-                if (WebApiApplication.DestroyerGame == null)
-                {
-                    WebApiApplication.DestroyerGame = GameBuilder.NewGame();
-                    Players = new List<DestroyrPlayer>();
-                    Actions = new List<DestroyrAction>();
-                    WebApiApplication.DestroyerGame.StartLevel(1);
+        public event EventHandler<object> Updated;
 
-                    _timer = new System.Threading.Timer(UpdateGameState, null, 0, 25);
-                }
-            }
+        private int _updateTicks = 0;
+
+        public DestroyrRunner()
+        {
+            Game = GameBuilder.NewGame();
+            Players = new List<DestroyrPlayer>();
+            Actions = new List<DestroyrAction>();
+            Game.StartLevel(1);
+
+            _timer = new System.Threading.Timer(UpdateGameState, null, 0, 1000/60);
         }
 
         private void UpdateGameState(dynamic state)
         {
+            lock (UpdateLock)
+            {
+                if( !_hasCompletedUpdate ) return;
+                _hasCompletedUpdate = false;
+            }
+
+            Debug.WriteLine("Updating world {0}", Game.Timer.Elapsed());
+
             DestroyrAction[] actions;
-            lock (Lock)
+            lock (UpdateLock)
             {
                 actions = Actions.ToArray();
                 Actions = new List<DestroyrAction>();
             }
 
-            var game = WebApiApplication.DestroyerGame;
-
             foreach (var action in actions)
             {
-                var player = game.Players.FirstOrDefault(p => p.Id == action.PlayerId);
+                var player = Game.Players.FirstOrDefault(p => p.Id == action.PlayerId);
                 switch (action.Action)
                 {
                     case (UserActionType.Fire):
-                        WebApiApplication.DestroyerGame.ShootProjectile(player);
+                        Game.ShootProjectile(player);
                         break;
                     case (UserActionType.RotateLeft):
-                        WebApiApplication.DestroyerGame.RotateLeft(player);
+                        Game.RotateLeft(player);
                         break;
                     case (UserActionType.RotateRight):
-                        WebApiApplication.DestroyerGame.RotateRight(player);
+                        Game.RotateRight(player);
                         break;
                     case (UserActionType.Thrust):
-                        WebApiApplication.DestroyerGame.Thrust(player);
+                        Game.Thrust(player);
                         break;
                     default:
                         break;
                 }
             }
-            game.RunOne();
+            Game.RunOne();
 
-            Clients.All.updateState(CreateGameState(game));
+            lock (UpdateLock)
+            {
+                _hasCompletedUpdate = true;
+            }
+
+            if (Updated != null)
+            {
+                Updated.Invoke(this, CreateGameState(this.Game));
+            }
         }
 
-        private dynamic CreateGameState(GameEngine game)
+        public void Join(DestroyrPlayer destroyrPlayer)
+        {
+            lock (UpdateLock)
+            {
+                var player = Game.AddPlayer(destroyrPlayer.Name);
+                destroyrPlayer.PlayerId = player.Id;
+
+                Players.Add(destroyrPlayer);
+            }
+        }
+
+        public object CreateGameState(GameEngine game)
         {
             return new
             {
@@ -80,35 +106,83 @@ namespace FFCG.Gamr.Destroyr
                     GameObjects = game.Board.AllItems.Select(i => new
                     {
                         Name = i.GetType().Name,
-                        Position = new {X = i.Center.X, Y = i.Center.Y},
-                        Shape = i.Geometry.Select(g => new {X = g.X, Y = g.Y}).ToArray(),
+                        Position = new { X = i.Center.X, Y = i.Center.Y },
+                        Shape = i.Geometry.Select(g => new { X = g.X, Y = g.Y }).ToArray(),
                         Rotation = i.Rotation,
-                        Velocity = new {X = i.Velocity.X, Y = i.Velocity.Y}
+                        Velocity = new { X = i.Velocity.X, Y = i.Velocity.Y }
                     }).ToArray()
                 }
             };
+        }
+
+        public void UserAction(UserActionType action, DestroyrPlayer player)
+        {
+            lock (UpdateLock)
+            {
+                if(!Actions.Any(a => a.PlayerId == player.PlayerId && action == a.Action))
+                    Actions.Add(new DestroyrAction() { Action = action, PlayerId = player.PlayerId });
+            }
+        }
+    }
+
+
+    public class DestroyrHub : Hub
+    {
+        public readonly object Lock = new object();
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            lock (Lock)
+            {
+                if (WebApiApplication.DestroyerGame != null)
+                {
+                    WebApiApplication.DestroyerGame.Updated -= DestroyerGameOnUpdated;
+                }
+            }
+        }
+
+        private void DestroyerGameOnUpdated(object sender, object o)
+        {
+            Clients.All.updateState((dynamic)o);
+        }
+
+        public void CreateGame()
+        {
+            lock (Lock)
+            {
+                if (WebApiApplication.DestroyerGame == null)
+                {
+                    WebApiApplication.DestroyerGame = new DestroyrRunner();
+                }
+            }
         }
 
         public void Join(string playerName)
         {
             lock (Lock)
             {
-                var destroyrPlayer = new DestroyrPlayer() { ConnectionId = this.Context.ConnectionId, Name = playerName };
-                var player = WebApiApplication.DestroyerGame.AddPlayer(playerName);
-                destroyrPlayer.PlayerId = player.Id;
+                var game = WebApiApplication.DestroyerGame;
+                if (game == null) return;
 
-                Players.Add(destroyrPlayer);
+                game.Updated += DestroyerGameOnUpdated;
+
+                var destroyrPlayer = new DestroyrPlayer() { ConnectionId = this.Context.ConnectionId, Name = playerName };
+                WebApiApplication.DestroyerGame.Join(destroyrPlayer);
             }
         }
 
         public void UserAction(UserActionType action)
         {
-            var game = WebApiApplication.DestroyerGame;
-            var destroyrPlayer = Players.FirstOrDefault(p => p.ConnectionId == this.Context.ConnectionId);
-
             lock (Lock)
             {
-                Actions.Add(new DestroyrAction() {Action = action, PlayerId = destroyrPlayer.PlayerId});
+                var game = WebApiApplication.DestroyerGame;
+                if (game == null) return;
+
+                var destroyrPlayer = game.Players.FirstOrDefault(p => p.ConnectionId == this.Context.ConnectionId);
+
+                game.UserAction(action, destroyrPlayer);
             }
         }
     }
