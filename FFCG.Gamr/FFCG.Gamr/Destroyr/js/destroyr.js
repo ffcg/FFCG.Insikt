@@ -3,12 +3,9 @@
     var hub = $.connection.destroyrHub;
     // Create a function that the hub can call to broadcast messages.
     
-    hub.client.handshake = function(tst) {
-        
-    }
-
+    
     $.connection.hub.start().done(function () {
-        hub.server.handshake();
+        hub.server.createGame();
     });
 
     var canvas = document.getElementById("gameCanvas");
@@ -122,7 +119,22 @@
     }
 
     function handleUserAction(actionName) {
-        //hub.server.userAction(actionName);
+        var hubAction = 0;
+        switch (actionName) {
+            case 'RotateLeft':
+                hubAction = 2;
+                break;
+            case 'RotateRight':
+                hubAction = 3;
+                break;
+            case 'Thrust':
+                hubAction = 4;
+                break;
+            case 'Fire':
+                hubAction = 1;
+                break;
+        }
+        hub.server.userAction(hubAction);
         applyUserActionOnClient(actionName);
     }
 
@@ -151,10 +163,18 @@
             receiveInput();
         }, 10);
     }
+    hub.client.updateState = function (newGameState) {
+        gameState = newGameState;
+        gameRenderer.render(gameState);
+    }
+
+    function updateState() {
+        
+    }
 
     $("#joinButton").click(function () {
         var playerName = $("#playerName").val();
-        //hub.server.playerJoined(playerName);
+        hub.server.join(playerName);
         gameInput.startCapturing();
         gameRenderer.render(gameState);
         receiveInput();

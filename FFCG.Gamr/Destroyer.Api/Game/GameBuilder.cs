@@ -25,6 +25,7 @@ namespace Destroyer.Game
             player.Id = game.NextId++;
             player.Name = name;
             game.Players.Add(player);
+            game.Board.AllItems.AddRange(game.Players);
 
             player.Geometry = new Point[]
             {

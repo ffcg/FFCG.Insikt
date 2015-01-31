@@ -64,6 +64,7 @@ namespace FFCG.Gamr.Destroyr
                         break;
                 }
             }
+            game.RunOne();
 
             Clients.All.updateState(CreateGameState(game));
         }
