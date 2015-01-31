@@ -19,6 +19,22 @@ namespace FFCG.Gamr.Brun7
                 Clients.All.gameReady();
         }
 
+        public override Task OnDisconnected(bool stopCalled)
+        {
+            var connectionId = Context.ConnectionId;
+            var bingoGame = WebApiApplication.BingoGame;
+            bingoGame.RemovePlayer(connectionId);
+
+            if (!bingoGame.Players.Any())
+                WebApiApplication.BingoGame = null;
+            else
+            {
+                Clients.Group(bingoGame.RoomId).playerJoined(bingoGame.RoomId, bingoGame.Players);    
+            }
+            
+            return base.OnDisconnected(stopCalled);
+        }
+
         public void CreateGame(string playerName)
         {
             var roomId = Guid.NewGuid().ToString();

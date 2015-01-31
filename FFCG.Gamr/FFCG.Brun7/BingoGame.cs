@@ -80,5 +80,10 @@ namespace FFCG.Brun7
         {
             _timer.Dispose();
         }
+
+        public void RemovePlayer(string connectionId)
+        {
+            Players.RemoveAll(x => x.Id == connectionId);
+        }
     }
 }

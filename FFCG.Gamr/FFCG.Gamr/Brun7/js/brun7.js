@@ -1,7 +1,8 @@
 ﻿$(function () {
     var name = prompt('Enter your name:', '');
+    $("#create_game").show();
     //var name = 'Jens och David';
-    // $('#display_name').text(name);
+    $('.playername').text(name);
 
     // Declare a proxy to reference the hub.
     var hub = $.connection.brun7Hub;
@@ -17,7 +18,7 @@
 
             var rows = player.Rows;
             var table = document.createElement('table');
-            table.className = "floatleft";
+            table.className = "floatleft table table-bordered table-condensed tight";
             var headerRow = document.createElement('tr');
             var headerCell = document.createElement('td');
             headerCell.colSpan = 5;
