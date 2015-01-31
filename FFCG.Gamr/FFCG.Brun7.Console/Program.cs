@@ -15,10 +15,10 @@ namespace FFCG.Brun7.Console
             var brun7Hub = new HubConnection("http://localhost:50843/");
             var proxy = brun7Hub.CreateHubProxy("brun7Hub");
 
-            proxy.Invoke("StartGame", null).Wait();
+            //proxy.Invoke("Hello").Wait();
 
-            //proxy.On<string, string>("Hello",(name, message) => System.Console.Write("Message: " + name + " message: " + message));
-            //brun7Hub.Start().Wait();
+            proxy.On<string, string>("StartGame", (name, message) => System.Console.Write("Message: " + name + " message: " + message));
+            brun7Hub.Start().Wait();
         }
     }
     
