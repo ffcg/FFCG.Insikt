@@ -18,6 +18,8 @@ namespace FFCG.Brun7
         public List<BingoPlayer> Players { get; private set; }
         public decimal Speed { get; private set; }
 
+        private decimal _speed = 1;
+
         public BingoGame(string roomId)
         {
             RoomId = roomId;
@@ -47,10 +49,10 @@ namespace FFCG.Brun7
         public void IncreaseSpeed()
         {
             Speed += 0.1m;
-
+            _speed -= 0.1m;
             if (_timer != null)
             {
-                _timer.Change(0, (int) (Speed*1000));
+                _timer.Change(0, (int)(_speed * 1000));
             }
         }
 
@@ -59,9 +61,10 @@ namespace FFCG.Brun7
             if (Speed > 0)
             {
                 Speed -= 0.1m;
+                _speed += 0.1m;
                 if(_timer != null)
                 {
-                    _timer.Change(0, (int)(Speed * 1000));
+                    _timer.Change(0, (int)(_speed * 1000));
                 }
             }
         }
@@ -97,7 +100,6 @@ namespace FFCG.Brun7
                 players.Group(RoomId).announceBingoWinner(playerWithBingo.Name);
                 StopGame();
             }
-            
         }
 
         private void StopGame()
