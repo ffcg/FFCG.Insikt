@@ -36,6 +36,8 @@ namespace Destroyer.Game
                 new Point(){X = -10.0f, Y = 10.0f}, 
             };
 
+            player.Center = Random.NewPoint(game.Board.Size);
+
             return player;
         }
 
