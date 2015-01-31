@@ -7,8 +7,8 @@
     <ProjectGuid>{0CF3F06A-0636-42D8-9F4A-6FDC67CDCB47}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FFCG.Brun7.Console</RootNamespace>
-    <AssemblyName>FFCG.Brun7.Console</AssemblyName>
+    <RootNamespace>FFCG.Brun7.Retro</RootNamespace>
+    <AssemblyName>FFCG.Brun7.Retro</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

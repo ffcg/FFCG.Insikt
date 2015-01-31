@@ -1,24 +1,37 @@
-﻿using Microsoft.AspNet.SignalR.Client;
-using Microsoft.AspNet.SignalR.Client.Hubs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using Microsoft.AspNet.SignalR.Client;
 
-namespace FFCG.Brun7.Console
+namespace FFCG.Brun7.Retro
 {
     class Program
     {
         static void Main(string[] args)
         {
-            var brun7Hub = new HubConnection("http://localhost:50843/");
+            var brun7Hub = new HubConnection("http://insiktweb.azurewebsites.net");
             var proxy = brun7Hub.CreateHubProxy("brun7Hub");
 
-            //proxy.Invoke("Hello").Wait();
-
-            proxy.On<string>("JoinGame", (name) => System.Console.Write("Name: " + name));
             brun7Hub.Start().Wait();
+
+            Console.WriteLine("Enter your name:");
+            var playerName = Console.ReadLine();
+            proxy.Invoke("JoinGame", new object[] { playerName });
+
+            proxy.On<object, object>("refreshCurrentGameState", (currentNumber, game) =>
+            {
+                Console.Write(currentNumber + " ");
+
+            });
+
+            proxy.On<string>("announceBingoWinner", (bingoWinner) =>
+            {
+                Console.Write("\n\nBingo winner: " + bingoWinner);
+
+            });
+
+            while (true)
+            {
+                
+            }
         }
     }
     
