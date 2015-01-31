@@ -14,6 +14,7 @@
         <div>
             <input type="button" value="Join game!" id="joingamebutton" />
             <h1 id="status"></h1>
+            <h2 id="turnStatus"></h2>
         
             @{
                 for (var i = 0; i < 10; i++)
@@ -63,6 +64,14 @@
 
                 hub.client.newActivePlayer = function (activePlayerId) {
                     isActive = globalPlayerId == activePlayerId;
+                    if (globalPlayerId == activePlayerId) {
+                        $('#turnStatus').text("Fire at will!");
+                        isActive = true;
+                    }
+                    else {
+                        $('#turnStatus').text("Duck and cover!");
+                        isActive = false;
+                    }
                 };
 
                 hub.client.shipHasBeenPlaced = function (gameId, playerId, x, y) {
@@ -81,24 +90,32 @@
 
                 hub.client.allShipsHaveBeenPlaced = function (gameId, activePlayerId) {
                     if (globalPlayerId == activePlayerId) {
-                        $('#status').text("Fire at will!");
+                        $('#turnStatus').text("Fire at will!");
                         isActive = true;
                     }
                     else {
-                        $('#status').text("Duck and cover!");
+                        $('#turnStatus').text("Duck and cover!");
                     }
                 };
 
                 hub.client.playerSunkShip = function (playerId, enemyId, x, y) {
-
+                    if (globalPlayerId == playerId) {
+                        $('#status').text("You hit the enemy!");
+                        $("div[data-x=" + x + "][data-y=" + y + "]").addClass("my-shot-hit");
+                    }
+                    else {
+                        $("div[data-x=" + x + "][data-y=" + y + "]").addClass("sunken-ship");
+                        $('#status').text("Your ship was lost!");
+                    }
                 };
 
                 hub.client.playerMissed = function (playerId, enemyId, x, y) {
                     if (globalPlayerId == playerId) {
                         $('#status').text("You missed!");
-                        isActive = true;
+                        $("div[data-x=" + x + "][data-y=" + y + "]").addClass("my-shot-miss");
                     }
                     else {
+                        $("div[data-x=" + x + "][data-y=" + y + "]").addClass("opponent-miss");
                         $('#status').text("Your ships are safe!");
                     }
                 };

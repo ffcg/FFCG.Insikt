@@ -20,9 +20,8 @@ namespace Battleship
             var game = GameController.Get().GetCurrentGame();
             
             var player = game.GetPlayer(request.PlayerId);
-            
-            var success = player.ShootAt(new Cell(request.X, request.Y));
             var enemy = game.GetEnemyOf(request.PlayerId);
+            var success = game.Fire(player.Id,enemy.Id,new Cell(request.X, request.Y));
 
             if (success)
             {
