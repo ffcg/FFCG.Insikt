@@ -152,12 +152,32 @@
         }, 10);
     }
 
-    $("#joinButton").click(function () {
+    function joinGame() {
+        $("#joinDiv").hide();
+        $("#gameCanvas").show();
         var playerName = $("#playerName").val();
         //hub.server.playerJoined(playerName);
         gameInput.startCapturing();
         gameRenderer.render(gameState);
         receiveInput();
+    }
+
+    // fulkod
+    $("#playerName").bind("keydown", function (event) {
+        var keycode = (event.keyCode ? event.keyCode : (event.which ? event.which : event.charCode));
+        if (keycode == 13) {
+            joinGame();
+            return false;
+        } else {
+            return true;
+        }
+    });
+
+    $("#gameCanvas").hide();
+    $("#playerName").focus();
+
+    $("#joinButton").click(function () {
+        joinGame();
     });
 
 
