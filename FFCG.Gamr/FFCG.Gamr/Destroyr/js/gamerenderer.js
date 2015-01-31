@@ -9,7 +9,7 @@
         // first save the untranslated/unrotated context
         context.save();
         context.translate(position.X, position.Y);
-        context.rotate(rotation * Math.PI / 180);
+        context.rotate(rotation);// * Math.PI / 180);
         context.beginPath();
         context.moveTo(points[0].X, points[0].Y);
         for (var i = 1; i < points.length; i++) {

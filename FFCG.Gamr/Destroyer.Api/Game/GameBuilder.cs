@@ -26,12 +26,14 @@ namespace Destroyer.Game
             player.Name = name;
             game.Players.Add(player);
             game.Board.AllItems.AddRange(game.Players);
+            player.Center = Random.NewPoint(game.Board.Size);
+            //player.Velocity = Random.NewVector(game.Board.Size.Width, game.Board.Size.Width);
 
             player.Geometry = new Point[]
             {
-                new Point(){X = -5.0f, Y = -5.0f}, 
-                new Point(){X = 5.0f, Y = 0.0f}, 
-                new Point(){X = -5.0f, Y = 5.0f}, 
+                new Point(){X = -10.0f, Y = -10.0f}, 
+                new Point(){X = 20.0f, Y = 0.0f}, 
+                new Point(){X = -10.0f, Y = 10.0f}, 
             };
 
             return player;

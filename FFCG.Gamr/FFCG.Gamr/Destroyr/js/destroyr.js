@@ -55,6 +55,7 @@
     }
 
     function animateGameObject(world, object) {
+        /*
         object.Position.X += object.Velocity.X;
         object.Position.Y += object.Velocity.Y;
 
@@ -73,7 +74,7 @@
         if (object.Local && object.Local.update) {
             object.Local.update();
         }
-
+        */
     }
 
     function animateWorld(world) {
@@ -85,6 +86,7 @@
 
     function applyUserActionOnClient(actionName, elapsedTime) {
         //console.log(actionName);
+        /*
         var timeFactor = elapsedTime;
         var ship = gameState.World.GameObjects[0];
         if (actionName === 'RotateLeft') {
@@ -118,7 +120,8 @@
                 }
             };
             gameState.World.GameObjects.push(bullet);
-        }
+            
+        }*/
     }
 
     function handleUserAction(actionName, elapsedTime) {
@@ -179,11 +182,9 @@
     }
     hub.client.updateState = function (newGameState) {
         gameState = newGameState;
-        gameRenderer.render(gameState);
-    }
+        console.log(gameState);
 
-    function updateState() {
-        
+        gameRenderer.render(gameState);
     }
 
     function joinGame() {
@@ -192,6 +193,17 @@
         var playerName = $("#playerName").val();
         hub.server.join(playerName);
         gameRenderer.playerName = playerName;
+        gameInput.startCapturing();
+        lastUpdateTime = Date.now();
+        gameRenderer.render(gameState);
+        receiveInput();
+    }
+
+    function viewGame() {
+        $("#joinDiv").hide();
+        $("#gameCanvas").show();
+        hub.server.view(playerName);
+        gameRenderer.playerName = "Anonymous viewer";
         gameInput.startCapturing();
         lastUpdateTime = Date.now();
         gameRenderer.render(gameState);
@@ -216,6 +228,9 @@
         joinGame();
     });
 
+    $("#viewButton").click(function () {
+        viewGame();
+    });
 
 
 });

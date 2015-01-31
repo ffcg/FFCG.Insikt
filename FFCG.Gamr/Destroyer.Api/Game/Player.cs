@@ -19,7 +19,7 @@ namespace Destroyer.Game
             if (x > board.Size.Width) x = (x - board.Size.Width);
             if (y > board.Size.Height) y = (y - board.Size.Height);
             if (x < 0) x = (board.Size.Width - x);
-            if (y < 0) x = (board.Size.Width - y);
+            if (y < 0) y = (board.Size.Width - y);
 
             this.Center = new Point() { X = x, Y = y };
         }

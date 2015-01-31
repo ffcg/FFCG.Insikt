@@ -41,7 +41,7 @@ namespace FFCG.Gamr.Destroyr
                 _hasCompletedUpdate = false;
             }
 
-            Debug.WriteLine("Updating world {0}", Game.Timer.Elapsed());
+            //Debug.WriteLine("Updating world {0}", Game.Timer.Elapsed());
 
             DestroyrAction[] actions;
             lock (UpdateLock)
@@ -80,7 +80,12 @@ namespace FFCG.Gamr.Destroyr
 
             if (Updated != null)
             {
+                //Debug.Write(".");
                 Updated.Invoke(this, CreateGameState(this.Game));
+            }
+            else
+            {
+                //Debug.Write("-");
             }
         }
 
@@ -105,7 +110,7 @@ namespace FFCG.Gamr.Destroyr
                     Height = game.Board.Size.Height,
                     GameObjects = game.Board.AllItems.Select(i => new
                     {
-                        Name = i.GetType().Name,
+                        Name = i is Player ? ((Player)i).Name : i is Projectile ? "" : i.GetType().Name,
                         Position = new { X = i.Center.X, Y = i.Center.Y },
                         Shape = i.Geometry.Select(g => new { X = g.X, Y = g.Y }).ToArray(),
                         Rotation = i.Rotation,
@@ -138,9 +143,11 @@ namespace FFCG.Gamr.Destroyr
             {
                 if (WebApiApplication.DestroyerGame != null)
                 {
-                    WebApiApplication.DestroyerGame.Updated -= DestroyerGameOnUpdated;
+                    //WebApiApplication.DestroyerGame.Updated -= DestroyerGameOnUpdated;
                 }
             }
+
+            //Debug.WriteLine(String.Format("Disposed {0}", Context.ConnectionId));
         }
 
         private void DestroyerGameOnUpdated(object sender, object o)
@@ -156,6 +163,19 @@ namespace FFCG.Gamr.Destroyr
                 {
                     WebApiApplication.DestroyerGame = new DestroyrRunner();
                 }
+                //Debug.WriteLine(String.Format("Created {0}", Context.ConnectionId));
+            }
+        }
+
+        public void View()
+        {
+            lock (Lock)
+            {
+                var game = WebApiApplication.DestroyerGame;
+                if (game == null) return;
+
+                game.Updated += DestroyerGameOnUpdated;
+                //Debug.WriteLine(String.Format("Viewer {0}", Context.ConnectionId));
             }
         }
 
@@ -170,6 +190,7 @@ namespace FFCG.Gamr.Destroyr
 
                 var destroyrPlayer = new DestroyrPlayer() { ConnectionId = this.Context.ConnectionId, Name = playerName };
                 WebApiApplication.DestroyerGame.Join(destroyrPlayer);
+                //Debug.WriteLine(String.Format("Joined {0}", Context.ConnectionId));
             }
         }
 
@@ -182,6 +203,7 @@ namespace FFCG.Gamr.Destroyr
 
                 var destroyrPlayer = game.Players.FirstOrDefault(p => p.ConnectionId == this.Context.ConnectionId);
 
+                //Debug.WriteLine(String.Format("User action {0} {1}", action, Context.ConnectionId));
                 game.UserAction(action, destroyrPlayer);
             }
         }

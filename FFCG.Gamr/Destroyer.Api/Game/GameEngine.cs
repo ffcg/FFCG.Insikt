@@ -38,8 +38,8 @@ namespace Destroyer.Game
         public static void Render(this Item item)
         {
             Debug.WriteLine("Item: {0} [{1}]", item.Id, item.GetType().Name);
-            Debug.WriteLine("Pos: {0:N1} {1:N1} {2:N1} {3:N1} {4:N1} ", item.Center.X, item.Center.Y, item.Rotation, item.Velocity.X, item.Velocity.Y);
-            Debug.WriteLine("BB:  {0:N1} {1:N1} - {2:N1} {3:N1} ", item.BoundingBox.TopLeft.X, item.BoundingBox.TopLeft.Y, item.BoundingBox.BottomRight.X, item.BoundingBox.BottomRight.Y);
+            Debug.WriteLine("Pos: {0:N0} {1:N0} {2:N0} {3:N0} {4:N0} ", item.Center.X, item.Center.Y, item.Rotation * 180 / Math.PI, item.Velocity.X, item.Velocity.Y);
+            Debug.WriteLine("BB:  {0:N0} {1:N0} - {2:N0} {3:N0} ", item.BoundingBox.TopLeft.X, item.BoundingBox.TopLeft.Y, item.BoundingBox.BottomRight.X, item.BoundingBox.BottomRight.Y);
             Debug.WriteLine("------------------------------------");
         }
 
@@ -126,7 +126,7 @@ namespace Destroyer.Game
 
             Collisions = new List<Collision>(UpdateCollisions());
 
-            foreach (var item in Board.AllItems)
+            foreach (var item in Board.AllItems.ToArray())
             {
                 if (item.Status == ItemStatus.Dead)
                 {
@@ -134,7 +134,7 @@ namespace Destroyer.Game
                 }
             }
 
-            this.Render(_timer);
+            //this.Render(_timer);
         }
 
         public IEnumerable<Collision> UpdateCollisions()
@@ -175,11 +175,11 @@ namespace Destroyer.Game
                 new Point(){X = 0.5f, Y = 0.0f}, 
                 new Point(){X = -0.5f, Y = 0.5f}, 
             };
-            var speed = 50.0f;
+            var speed = 5.0f;
             projectile.Velocity = new Vector()
             {
                 X = 10.0f * (float)Math.Cos(projectile.Rotation) * speed,
-                Y = 10.0f * (float)Math.Cos(projectile.Rotation) * speed
+                Y = 10.0f * (float)Math.Sin(projectile.Rotation) * speed
             };
 
             this.Board.AllItems.Add(projectile);
@@ -189,7 +189,7 @@ namespace Destroyer.Game
 
         public void RotateLeft(Player player)
         {
-            player.Rotation -= 10.0f * (float)Math.PI / 180.0f;
+            player.Rotation -= 5.0f * (float)Math.PI / 180.0f;
             if (player.Rotation < 0)
             {
                 player.Rotation += Rad360;
@@ -198,7 +198,7 @@ namespace Destroyer.Game
 
         public void RotateRight(Player player)
         {
-            player.Rotation += 10.0f * (float)Math.PI / 180.0f;
+            player.Rotation += 5.0f * (float)Math.PI / 180.0f;
             if (player.Rotation > Rad360)
             {
                 player.Rotation -= Rad360;
