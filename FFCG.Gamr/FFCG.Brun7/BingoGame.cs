@@ -42,6 +42,14 @@ namespace FFCG.Brun7
             
         }
 
+        public void Reset()
+        {
+            foreach (var bingoPlayer in Players)
+            {
+                bingoPlayer.AddCard(new Card(10));
+            }
+        }
+
         private void DrawNumber(dynamic players)
         {
             if (!_isStarted)
