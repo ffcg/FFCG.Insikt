@@ -4,16 +4,16 @@ using Microsoft.AspNet.SignalR;
 
 namespace Battleship
 {
-    public class Fire : IRequest
+    public class Fire : IRequest<object>
     {
         public Guid PlayerId { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
     }
 
-    public class FireHandler : IHandleRequests<Fire>
+    public class FireHandler : IHandleRequests<Fire, object>
     {
-        public void Handle(Fire request)
+        public object Handle(Fire request)
         {
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<BattleshipHub>();
 
@@ -30,7 +30,7 @@ namespace Battleship
                 {
                     var winner = player.Id;
                     hubContext.Clients.All.gameOver(winner);
-                    return;
+                    return null;
                 }
 
                 hubContext.Clients.All.playerSunkShip(player.Id, enemy.Id, request.X, request.Y);
@@ -46,6 +46,8 @@ namespace Battleship
             {
                 hubContext.Clients.All.newActivePlayer(activePlayer.Id);
             }
+
+            return null;
         }
     }
 }

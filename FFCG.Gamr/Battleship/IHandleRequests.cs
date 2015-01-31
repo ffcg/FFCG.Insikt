@@ -1,7 +1,7 @@
 ﻿namespace Battleship
 {
-    public interface IHandleRequests<in TRequest> where TRequest : IRequest
+    public interface IHandleRequests<in TRequest, out TResponse> where TRequest : IRequest<TResponse>
     {
-        void Handle(TRequest request);
+        TResponse Handle(TRequest request);
     }
 }
