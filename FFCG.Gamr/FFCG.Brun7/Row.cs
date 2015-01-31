@@ -7,6 +7,7 @@ namespace FFCG.Brun7
     {
         private readonly List<Square> _squares;
         public IEnumerable<Square> Squares { get { return _squares; } }
+        public bool Bingo { get { return HasBingo();} }
 
         public Row()
         {

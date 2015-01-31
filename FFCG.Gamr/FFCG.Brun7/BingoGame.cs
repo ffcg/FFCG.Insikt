@@ -41,18 +41,20 @@ namespace FFCG.Brun7
             var numbers = Enumerable.Range(1, _rows * 5).OrderBy(x => Guid.NewGuid());
             _randomNumbers = new Stack<int>(numbers);
 
-            _timer = new Timer(DrawNumber, players, 0, (int)(Speed * 1000));
-
-            
+            _timer = new Timer(DrawNumber, players, 0, (int)(_speed * 1000));
         }
 
         public void IncreaseSpeed()
         {
+            if (Speed == 1.9m)
+                return;
+
             Speed += 0.1m;
             _speed -= 0.1m;
             if (_timer != null)
             {
-                _timer.Change(0, (int)(_speed * 1000));
+                var period = (int)(_speed * 1000);
+                _timer.Change(period, period);
             }
         }
 
@@ -64,7 +66,8 @@ namespace FFCG.Brun7
                 _speed += 0.1m;
                 if(_timer != null)
                 {
-                    _timer.Change(0, (int)(_speed * 1000));
+                    var period = (int)(_speed * 1000);
+                    _timer.Change(period, period);
                 }
             }
         }
@@ -91,13 +94,15 @@ namespace FFCG.Brun7
 
             Players.ForEach(x => x.Card.Check(currentNumber));
 
-            var playerWithBingo = Players.FirstOrDefault(x => x.Card.IsBingo());
+            var playerWithBingos = Players.Where(x => x.Card.IsBingo()).ToList();
 
             players.Group(RoomId).refreshCurrentGameState(currentNumber, this);
             
-            if (playerWithBingo != null)
+            if (playerWithBingos.Any())
             {
-                players.Group(RoomId).announceBingoWinner(playerWithBingo.Name);
+                var bingos = string.Join(" & ", playerWithBingos.Select(x => x.Name).ToArray());
+
+                players.Group(RoomId).announceBingoWinner(bingos);
                 StopGame();
             }
         }
