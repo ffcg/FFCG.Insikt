@@ -11,12 +11,11 @@ namespace FFCG.Gamr
     public class WebApiApplication : System.Web.HttpApplication
     {
 
-        public static List<BingoGame> BingoGames;
+        public static BingoGame BingoGame; 
         public static Destroyr.DestroyrRunner DestroyerGame; 
 
         protected void Application_Start()
         {
-            BingoGames = new List<BingoGame>();
             GlobalConfiguration.Configure(WebApiConfig.Register);
         }
     }

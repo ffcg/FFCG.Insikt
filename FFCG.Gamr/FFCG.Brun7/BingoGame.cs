@@ -15,13 +15,17 @@ namespace FFCG.Brun7
 
         public Guid Id { get; private set; }
         public string RoomId { get; private set; }
-        public List<BingoPlayer> Players { get; private set; } 
+        public List<BingoPlayer> Players { get; private set; }
+        public decimal Speed { get; private set; }
+
+        private decimal _speed = 1;
 
         public BingoGame(string roomId)
         {
             RoomId = roomId;
             Id = Guid.NewGuid();
             Players = new List<BingoPlayer>();
+            Speed = 1;
         }
 
         public void AddPlayer(BingoPlayer player)
@@ -37,9 +41,43 @@ namespace FFCG.Brun7
             var numbers = Enumerable.Range(1, _rows * 5).OrderBy(x => Guid.NewGuid());
             _randomNumbers = new Stack<int>(numbers);
 
-            _timer = new Timer(DrawNumber, players, 0, 500);
+            _timer = new Timer(DrawNumber, players, 0, (int)(_speed * 1000));
+        }
 
-            
+        public void IncreaseSpeed()
+        {
+            if (Speed == 1.9m)
+                return;
+
+            Speed += 0.1m;
+            _speed -= 0.1m;
+            if (_timer != null)
+            {
+                var period = (int)(_speed * 1000);
+                _timer.Change(period, period);
+            }
+        }
+
+        public void LowerSpeed()
+        {
+            if (Speed > 0)
+            {
+                Speed -= 0.1m;
+                _speed += 0.1m;
+                if(_timer != null)
+                {
+                    var period = (int)(_speed * 1000);
+                    _timer.Change(period, period);
+                }
+            }
+        }
+
+        public void Reset()
+        {
+            foreach (var bingoPlayer in Players)
+            {
+                bingoPlayer.AddCard(new Card(10));
+            }
         }
 
         private void DrawNumber(dynamic players)
@@ -56,21 +94,27 @@ namespace FFCG.Brun7
 
             Players.ForEach(x => x.Card.Check(currentNumber));
 
-            var playerWithBingo = Players.FirstOrDefault(x => x.Card.IsBingo());
+            var playerWithBingos = Players.Where(x => x.Card.IsBingo()).ToList();
 
-            players.Group(RoomId).refreshCurrentGameState(currentNumber, Players);
+            players.Group(RoomId).refreshCurrentGameState(currentNumber, this);
             
-            if (playerWithBingo != null)
+            if (playerWithBingos.Any())
             {
-                players.Group(RoomId).announceBingoWinner(playerWithBingo.Name);
+                var bingos = string.Join(" & ", playerWithBingos.Select(x => x.Name).ToArray());
+
+                players.Group(RoomId).announceBingoWinner(bingos);
                 StopGame();
             }
-            
         }
 
         private void StopGame()
         {
             _timer.Dispose();
+        }
+
+        public void RemovePlayer(string connectionId)
+        {
+            Players.RemoveAll(x => x.Id == connectionId);
         }
     }
 }

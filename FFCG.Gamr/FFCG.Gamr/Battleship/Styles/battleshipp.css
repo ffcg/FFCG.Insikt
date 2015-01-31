@@ -11,3 +11,23 @@
     height: 50px;
     border: 1px solid darkgrey;
 }
+
+.ship {
+	background-color: green;
+}
+
+.sunken-ship {
+	background-color: red;
+}
+
+.opponent-miss {
+	border: 1px solid orangered;
+}
+
+.my-shot-miss {
+	background-color: lightblue;
+}
+
+.my-shot-hit {
+	background-color: orangered;
+}

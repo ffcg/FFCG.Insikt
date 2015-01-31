@@ -5,9 +5,7 @@ namespace Battleship
 {
     public class AddedPlayerViewModel
     {
-        public Guid GameId { get; set; }
         public Guid PlayerId { get; set; }
-        public string Name { get; set; }
     }
 
     public class JoinGame : IRequest<AddedPlayerViewModel>
@@ -25,23 +23,17 @@ namespace Battleship
             var game = controller.GetCurrentGame();
             var player = game.AddPlayer(request.Name);
             
-            var viewModel = new AddedPlayerViewModel
-            {
-                GameId = game.Id,
-                PlayerId = player.Id,
-                Name = player.Name,
-            };
-
             if (game.IsWaitingForPlayers)
             {
                 hubContext.Clients.All.gameIsWaitingForSecondPlayer(game.Id, player.Id);
             }
             else
             {
-                hubContext.Clients.All.gameIsReadyToStart(game.Id, player.Id);
+                game.Start();
+                hubContext.Clients.All.gameHasBeenStarted(game.Id, player.Id);
             }
 
-            return viewModel;
+            return new AddedPlayerViewModel {PlayerId = player.Id};
         }
     }
 }
