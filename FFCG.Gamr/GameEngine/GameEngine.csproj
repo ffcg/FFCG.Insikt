@@ -39,17 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameEngine.cs" />
     <Compile Include="IUserActionHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GameEngine.Api\GameEngine.Api.csproj">
-      <Project>{80e08069-1c84-49d6-b9cd-13b01447eceb}</Project>
-      <Name>GameEngine.Api</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -7,8 +7,8 @@
     <ProjectGuid>{80E08069-1C84-49D6-B9CD-13B01447ECEB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GameEngine.Api</RootNamespace>
-    <AssemblyName>GameEngine.Api</AssemblyName>
+    <RootNamespace>GameEngine.Messages</RootNamespace>
+    <AssemblyName>GameEngine.Messages</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

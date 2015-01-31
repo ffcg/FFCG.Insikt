@@ -1,4 +1,4 @@
-namespace GameEngine.Messages
+namespace Destroyer.State
 {
     public class PlayerState
     {

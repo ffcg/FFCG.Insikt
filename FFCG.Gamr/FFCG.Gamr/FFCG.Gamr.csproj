@@ -141,7 +141,10 @@
     <Content Include="Brun7\js\brun7.js" />
     <Content Include="Destroyr\index.html" />
     <Content Include="Destroyr\js\destroyr.js" />
+    <Content Include="Destroyr\js\gameinput.js" />
     <Content Include="Global.asax" />
+    <Content Include="Destroyr\js\gamerenderer.js" />
+    <Content Include="Destroyr\js\gameworld.js" />
     <Content Include="index.html" />
     <Content Include="packages.config" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
@@ -150,6 +153,8 @@
     <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
+    <Content Include="Scripts\underscore-min.js" />
+    <Content Include="Scripts\underscore.js" />
     <Content Include="Tronr\index.html" />
     <Content Include="Tronr\js\tron.js" />
     <Content Include="Web.config" />
@@ -176,6 +181,10 @@
     <ProjectReference Include="..\Battleship\Battleship.csproj">
       <Project>{E87E6351-7D2C-43A4-A842-E4C22D120558}</Project>
       <Name>Battleship</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Destroyer.Api\Destroyer.csproj">
+      <Project>{FA027026-5256-44C6-BFE4-2EA29087C5A0}</Project>
+      <Name>Destroyer</Name>
     </ProjectReference>
     <ProjectReference Include="..\FFCG.Brun7\FFCG.Brun7.csproj">
       <Project>{7926D1E3-1573-4C8A-8329-D9DF19F23640}</Project>

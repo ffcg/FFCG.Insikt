@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GameEngine.Api
+namespace GameEngine.Messages
 {
     public class GameState
     {

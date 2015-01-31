@@ -7,8 +7,8 @@
     <ProjectGuid>{FA027026-5256-44C6-BFE4-2EA29087C5A0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Destroyer.Api</RootNamespace>
-    <AssemblyName>Destroyer.Api</AssemblyName>
+    <RootNamespace>Destroyer</RootNamespace>
+    <AssemblyName>Destroyer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,17 +39,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Thrust.cs" />
+    <Compile Include="Game\Board.cs" />
+    <Compile Include="Game\Collision.cs" />
+    <Compile Include="Game\GameEngine.cs" />
+    <Compile Include="Game\GameBuilder.cs" />
+    <Compile Include="Game\Obstacle.cs" />
+    <Compile Include="IUserActionHandler.cs" />
+    <Compile Include="Game\Item.cs" />
+    <Compile Include="Game\ItemStatus.cs" />
+    <Compile Include="Game\ITimer.cs" />
+    <Compile Include="Game\Motile.cs" />
+    <Compile Include="Game\Player.cs" />
+    <Compile Include="State\PlayerState.cs" />
+    <Compile Include="Actions\Thrust.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Fire.cs" />
-    <Compile Include="Turn.cs" />
+    <Compile Include="Actions\Fire.cs" />
+    <Compile Include="Actions\Rotate.cs" />
+    <Compile Include="Actions\UserAction.cs" />
+    <Compile Include="TwoD\Point.cs" />
+    <Compile Include="Game\Projectile.cs" />
+    <Compile Include="Game\RandomHelper.cs" />
+    <Compile Include="TwoD\Rect.cs" />
+    <Compile Include="Game\StaticTimer.cs" />
+    <Compile Include="Game\Stationary.cs" />
+    <Compile Include="Game\Timer.cs" />
+    <Compile Include="TwoD\Vector.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GameEngine.Api\GameEngine.Api.csproj">
-      <Project>{80e08069-1c84-49d6-b9cd-13b01447eceb}</Project>
-      <Name>GameEngine.Api</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

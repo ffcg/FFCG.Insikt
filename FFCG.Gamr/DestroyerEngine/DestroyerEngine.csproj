@@ -46,17 +46,9 @@
     <Folder Include="Model\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Destroyer.Api\Destroyer.Api.csproj">
+    <ProjectReference Include="..\Destroyer.Api\Destroyer.csproj">
       <Project>{fa027026-5256-44c6-bfe4-2ea29087c5a0}</Project>
-      <Name>Destroyer.Api</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GameEngine.Api\GameEngine.Api.csproj">
-      <Project>{80e08069-1c84-49d6-b9cd-13b01447eceb}</Project>
-      <Name>GameEngine.Api</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GameEngine\GameEngine.csproj">
-      <Project>{eb3905b4-f610-481f-9244-44d7b5b239e4}</Project>
-      <Name>GameEngine</Name>
+      <Name>Destroyer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

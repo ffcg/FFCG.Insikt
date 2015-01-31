@@ -12,6 +12,7 @@ namespace FFCG.Gamr
     {
 
         public static BingoGame BingoGame; 
+        public static Destroyr.DestroyrRunner DestroyerGame; 
 
         protected void Application_Start()
         {
