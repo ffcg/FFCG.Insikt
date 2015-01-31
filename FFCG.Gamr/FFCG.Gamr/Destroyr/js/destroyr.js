@@ -42,7 +42,8 @@
 
     var rotateSpeed = 2.0;
     var acceleration = 0.2;
-    var bulletSpeed = 1.2;
+    var bulletSpeed = 2.5;
+    var reloadTime = 200;
 
     function toDegrees(angle) {
         return angle * (180 / Math.PI);
@@ -138,7 +139,10 @@
         applyUserActionOnClient(actionName);
     }
 
+    var lastFireTime = 0;
+
     function handleInput() {
+        var currentTime = Date.now();
         if (gameInput.keys[gameInput.key.LEFT]) {
             handleUserAction('RotateLeft');
         }
@@ -149,7 +153,11 @@
             handleUserAction('Thrust');
         }
         if (gameInput.keys[gameInput.key.SPACE]) {
-            handleUserAction('Fire');
+            var timeSinceLastFire = currentTime - lastFireTime;
+            if (timeSinceLastFire > reloadTime) {
+                lastFireTime = currentTime;
+                handleUserAction('Fire');
+            }
         }
     }
 
@@ -164,8 +172,8 @@
         }, 10);
     }
     hub.client.updateState = function (newGameState) {
-        gameState = newGameState;
-        gameRenderer.render(gameState);
+        //gameState = newGameState;
+        //gameRenderer.render(gameState);
     }
 
     function updateState() {
@@ -176,7 +184,8 @@
         $("#joinDiv").hide();
         $("#gameCanvas").show();
         var playerName = $("#playerName").val();
-        hub.server.join(playerName);
+        //hub.server.join(playerName);
+        gameRenderer.playerName = playerName;
         gameInput.startCapturing();
         gameRenderer.render(gameState);
         receiveInput();
